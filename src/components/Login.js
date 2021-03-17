@@ -2,36 +2,34 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 
-const Register = (props) => {
-  const [registerForm, setRegisterForm] = useState({
+const Login = (props) => {
+  const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
-    confirmPassword: "",
   });
 
   const [errorMessage, setErrorMessage] = useState("");
-
   let history = useHistory();
 
   // Change register details when inputs change
   const handleInput = (e) => {
-    const registerFormCopy = {
-      ...registerForm,
+    const loginFormCopy = {
+      ...loginForm,
       [e.target.name]: e.target.value,
     };
-    setRegisterForm(registerFormCopy);
+    setLoginForm(loginFormCopy);
   };
 
   // Submit register form handler
   const handleSubmission = (e) => {
     e.preventDefault();
-    console.log(registerForm);
+    console.log(loginForm);
     setErrorMessage("");
 
     // Submit to backend
     axios
-      .post("http://localhost:3000/register", {
-        ...registerForm,
+      .post("http://localhost:3000/login", {
+        ...loginForm,
       })
       .then((response) => {
         console.dir(response);
@@ -42,7 +40,7 @@ const Register = (props) => {
 
         // Redirect to home page
         history.push("/");
-
+        
         // Login user with redux state auth
       })
       .catch((error) => {
@@ -53,7 +51,7 @@ const Register = (props) => {
 
   return (
     <div>
-      <h1>Register</h1>
+      <h1>Login</h1>
       <h2>{errorMessage}</h2>
       <form onSubmit={handleSubmission}>
         <div>
@@ -62,7 +60,7 @@ const Register = (props) => {
             type="text"
             id="username"
             name="username"
-            value={registerForm.username}
+            value={loginForm.username}
             onChange={handleInput}
           />
         </div>
@@ -72,17 +70,7 @@ const Register = (props) => {
             type="password"
             id="password"
             name="password"
-            value={registerForm.password}
-            onChange={handleInput}
-          />
-        </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={registerForm.confirmPassword}
+            value={loginForm.password}
             onChange={handleInput}
           />
         </div>
@@ -94,4 +82,4 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+export default Login;
