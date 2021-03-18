@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
@@ -9,28 +9,30 @@ import AuthShow from "./components/AuthShow";
 import AuthHide from "./components/AuthHide";
 import Home from "./components/Home";
 
-function App() {
+import { connect } from "react-redux";
+import * as actions from "./store/actions/index";
+
+const App = (props) => {
   let history = useHistory();
 
   // Check if user has a valid token in local storage
   const isLoggedIn = () => {
     const expiration = localStorage.getItem("jwtExpires");
-    console.log(expiration)
     return expiration && Number(expiration) > Date.now();
   };
 
-  
-  const [isAuth, setIsAuth] = useState(false);
+  // Authorize user if they have a valid token
   useEffect(() => {
-    setIsAuth(isLoggedIn());
+    if (isLoggedIn()) {
+      props.onAuthorize()
+    }
   }, []);
-  
-  console.log(isAuth)
 
   const logout = () => {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("jwtExpires");
     history.push("/");
+    props.onDeauthorize();
   };
 
   return (
@@ -50,12 +52,12 @@ function App() {
               <Link to="/login">Login</Link>
             </li>
           </AuthHide>
-          <AuthShow isAuth={isAuth}>
+          <AuthShow>
             <li>
               <Link to="/protected">Protected</Link>
             </li>
           </AuthShow>
-          <AuthShow isAuth={isAuth}>
+          <AuthShow>
             <li>
               <button onClick={logout}>Log out</button>
             </li>
@@ -70,7 +72,7 @@ function App() {
           <Login />
         </Route>
         <Route path="/protected">
-          <Auth isAuth={isAuth}>
+          <Auth>
             <Protected />
           </Auth>
         </Route>
@@ -82,4 +84,21 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    isAuth: state.auth.isAuth,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuthorize: () => {
+      dispatch(actions.authorize());
+    },
+    onDeauthorize: () => {
+      dispatch(actions.deauthorize());
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

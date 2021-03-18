@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { connect } from "react-redux";
+import * as actions from "../store/actions/index"
 
 const Register = (props) => {
   const [registerForm, setRegisterForm] = useState({
@@ -44,6 +46,7 @@ const Register = (props) => {
         history.push("/");
 
         // Login user with redux state auth
+        props.onAuthorize();
       })
       .catch((error) => {
         console.log("ERROR", error.response.data.message);
@@ -94,4 +97,13 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuthorize: () => {
+      dispatch(actions.authorize());
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Register);
+

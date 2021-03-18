@@ -1,15 +1,20 @@
-import React from 'react'
+import React from "react";
+import {connect} from "react-redux"
 
-const AuthShow = props => {
+const AuthShow = (props) => {
   let display;
   if (props.isAuth) {
     display = <React.Fragment>{props.children}</React.Fragment>;
   } else {
     display = null;
   }
-  return (
-    display
-  )
-}
+  return display;
+};
 
-export default AuthShow
+const mapStateToProps = (state) => {
+  return {
+    isAuth: state.auth.isAuth,
+  };
+};
+
+export default connect(mapStateToProps)(AuthShow);

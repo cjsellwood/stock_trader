@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from "react-redux";
 
 const AuthHide = props => {
   let display;
@@ -12,4 +13,10 @@ const AuthHide = props => {
   )
 }
 
-export default AuthHide
+const mapStateToProps = (state) => {
+  return {
+    isAuth: state.auth.isAuth,
+  }
+}
+
+export default connect(mapStateToProps)(AuthHide)

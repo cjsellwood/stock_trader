@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 const Auth = (props) => {
   let display;
@@ -11,4 +12,10 @@ const Auth = (props) => {
   return display;
 };
 
-export default Auth;
+const mapStateToProps = (state) => {
+  return {
+    isAuth: state.auth.isAuth,
+  };
+};
+
+export default connect(mapStateToProps)(Auth);

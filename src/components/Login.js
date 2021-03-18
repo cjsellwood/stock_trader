@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { connect } from "react-redux";
+import * as actions from "../store/actions/index"
 
 const Login = (props) => {
   const [loginForm, setLoginForm] = useState({
@@ -23,7 +25,6 @@ const Login = (props) => {
   // Submit register form handler
   const handleSubmission = (e) => {
     e.preventDefault();
-    console.log(loginForm);
     setErrorMessage("");
 
     // Submit to backend
@@ -42,6 +43,7 @@ const Login = (props) => {
         history.push("/");
         
         // Login user with redux state auth
+        props.onAuthorize();
       })
       .catch((error) => {
         console.log("ERROR", error.response.data.message);
@@ -82,4 +84,12 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuthorize: () => {
+      dispatch(actions.authorize());
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Login);
