@@ -10,6 +10,7 @@ import AuthHide from "./components/AuthHide";
 import Home from "./components/Home";
 import Search from "./components/Search";
 import Stocks from "./components/Stocks";
+import Symbol from "./components/Symbol"
 
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
@@ -95,6 +96,11 @@ const App = (props) => {
         <Route path="/search">
           <AuthRedirect>
             <Search />
+          </AuthRedirect>
+        </Route>
+        <Route path="/stocks/:symbol">
+          <AuthRedirect>
+            <Symbol />
           </AuthRedirect>
         </Route>
         <Route path="/stocks">

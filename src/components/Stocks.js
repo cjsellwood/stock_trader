@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/index";
 
@@ -7,8 +8,13 @@ const Stocks = (props) => {
   useEffect(() => {
     // If hasn't been run before
     if (!props.stocks.length) {
+      const jwtToken = localStorage.getItem("jwtToken");
       axios
-        .get("http://localhost:3000/stocks")
+        .get("http://localhost:3000/stocks", {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        })
         .then((response) => {
           props.onLoadStocks(response.data.stocks);
         })
@@ -29,7 +35,10 @@ const Stocks = (props) => {
       100;
     return (
       <tr key={stock.symbol}>
-        <td>{stock.symbol}</td>
+        <td>
+          {" "}
+          <Link to={`/stocks/${stock.symbol}`}>{stock.symbol}</Link>
+        </td>
         <td>{stock.companyName}</td>
         <td> {stock.prices.length > 1 ? change.toFixed(2) + "%" : "-"}</td>
         <td>{stock.prices[stock.prices.length - 1].toFixed(2)}</td>
