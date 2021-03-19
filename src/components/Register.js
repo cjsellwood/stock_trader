@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/index"
 
@@ -11,7 +10,7 @@ const Register = (props) => {
     confirmPassword: "",
   });
 
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
 
   let history = useHistory();
 
@@ -28,36 +27,15 @@ const Register = (props) => {
   const handleSubmission = (e) => {
     e.preventDefault();
     console.log(registerForm);
-    setErrorMessage("");
+    // setErrorMessage("");
 
     // Submit to backend
-    axios
-      .post("http://localhost:3000/register", {
-        ...registerForm,
-      })
-      .then((response) => {
-        console.dir(response);
-        // Store jwt token and when it expires in local storage
-        localStorage.setItem("jwtToken", response.data.token);
-        const expires = Date.now() + Number(response.data.expiresIn);
-        localStorage.setItem("jwtExpires", expires);
-
-        // Redirect to home page
-        history.push("/");
-
-        // Login user with redux state auth
-        props.onAuthorize();
-      })
-      .catch((error) => {
-        console.log("ERROR", error.response.data.message);
-        setErrorMessage(error.response.data.message);
-      });
+    props.onPostRegister(registerForm, history)
   };
 
   return (
     <div>
       <h1>Register</h1>
-      <h2>{errorMessage}</h2>
       <form onSubmit={handleSubmission}>
         <div>
           <label htmlFor="username">Username</label>
@@ -99,9 +77,9 @@ const Register = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAuthorize: () => {
-      dispatch(actions.authorize());
-    },
+    onPostRegister: (registerForm, history) => {
+      dispatch(actions.postRegister(registerForm, history));
+    }
   }
 }
 

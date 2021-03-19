@@ -1,2 +1,2 @@
-export { authorize, deauthorize, loadingFinish } from "./auth";
-export {loadStocks} from "./stocks"
+export { authorize, deauthorize, loadingFinish, postLogin, postRegister } from "./auth";
+export {loadStocks, fetchStocks} from "./stocks"

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/index"
+import { useHistory } from "react-router-dom";
 
 const Login = (props) => {
   const [loginForm, setLoginForm] = useState({
@@ -10,8 +9,7 @@ const Login = (props) => {
     password: "",
   });
 
-  const [errorMessage, setErrorMessage] = useState("");
-  let history = useHistory();
+  // const [errorMessage, setErrorMessage] = useState("");
 
   // Change register details when inputs change
   const handleInput = (e) => {
@@ -22,39 +20,21 @@ const Login = (props) => {
     setLoginForm(loginFormCopy);
   };
 
+  let history = useHistory();
+
   // Submit register form handler
   const handleSubmission = (e) => {
     e.preventDefault();
-    setErrorMessage("");
+    // setErrorMessage("");
 
     // Submit to backend
-    axios
-      .post("http://localhost:3000/login", {
-        ...loginForm,
-      })
-      .then((response) => {
-        console.dir(response);
-        // Store jwt token and when it expires in local storage
-        localStorage.setItem("jwtToken", response.data.token);
-        const expires = Date.now() + Number(response.data.expiresIn);
-        localStorage.setItem("jwtExpires", expires);
-
-        // Redirect to home page
-        history.push("/");
-        
-        // Login user with redux state auth
-        props.onAuthorize();
-      })
-      .catch((error) => {
-        console.log("ERROR", error.response.data.message);
-        setErrorMessage(error.response.data.message);
-      });
+    props.onPostLogin(loginForm, history)
+    
   };
 
   return (
     <div>
       <h1>Login</h1>
-      <h2>{errorMessage}</h2>
       <form onSubmit={handleSubmission}>
         <div>
           <label htmlFor="username">Username</label>
@@ -86,9 +66,9 @@ const Login = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAuthorize: () => {
-      dispatch(actions.authorize());
-    },
+    onPostLogin: (loginForm, history) => {
+      dispatch(actions.postLogin(loginForm, history));
+    }
   }
 }
 

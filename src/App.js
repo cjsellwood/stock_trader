@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import Protected from "./components/Protected";
 import AuthRedirect from "./components/AuthRedirect";
 import AuthShow from "./components/AuthShow";
 import AuthHide from "./components/AuthHide";
@@ -71,11 +70,6 @@ const App = (props) => {
           </AuthShow>
           <AuthShow>
             <li>
-              <Link to="/protected">Protected</Link>
-            </li>
-          </AuthShow>
-          <AuthShow>
-            <li>
               <button onClick={logout}>Log out</button>
             </li>
           </AuthShow>
@@ -87,11 +81,6 @@ const App = (props) => {
         </Route>
         <Route path="/login">
           <Login />
-        </Route>
-        <Route path="/protected">
-          <AuthRedirect>
-            <Protected />
-          </AuthRedirect>
         </Route>
         <Route path="/search">
           <AuthRedirect>

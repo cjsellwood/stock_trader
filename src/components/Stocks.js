@@ -1,26 +1,13 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/index";
 
 const Stocks = (props) => {
   useEffect(() => {
-    // If hasn't been run before
+    // If hasn't been run before fetch stocks from database
     if (!props.stocks.length) {
-      const jwtToken = localStorage.getItem("jwtToken");
-      axios
-        .get("http://localhost:3000/stocks", {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        })
-        .then((response) => {
-          props.onLoadStocks(response.data.stocks);
-        })
-        .catch((err) => {
-          console.dir(err);
-        });
+      props.onFetchStocks();
     }
 
     // eslint-disable-next-line
@@ -71,9 +58,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoadStocks: (stocks) => {
-      dispatch(actions.loadStocks(stocks));
-    },
+    onFetchStocks: () => {
+      dispatch(actions.fetchStocks())
+    }
   };
 };
 
