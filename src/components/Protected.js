@@ -7,9 +7,6 @@ const Protected = (props) => {
 
   useEffect(() => {
     let jwtToken = localStorage.getItem("jwtToken");
-    console.log(jwtToken);
-    const jwtExpires = localStorage.getItem("jwtExpires");
-    console.log(jwtExpires, Date.now());
     axios
       .get("http://localhost:3000/protected", {
         headers: {

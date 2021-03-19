@@ -1,2 +1,3 @@
 export const AUTHORIZE = "AUTHORIZE";
 export const DEAUTHORIZE = "DEAUTHORIZE";
+export const LOADING_FINISH = "LOADING_FINISH"

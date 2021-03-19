@@ -13,3 +13,10 @@ export const deauthorize = () => {
     type: actionTypes.DEAUTHORIZE,
   };
 };
+
+// Stop loading
+export const loadingFinish = () => {
+  return {
+    type: actionTypes.LOADING_FINISH,
+  }
+}

@@ -6,6 +6,8 @@ const Auth = (props) => {
   let display;
   if (props.isAuth) {
     display = <React.Fragment>{props.children}</React.Fragment>;
+  } else if (props.isLoading) {
+    display = <h1>Loading...</h1>
   } else {
     display = <Redirect to="/login" />;
   }
@@ -15,6 +17,7 @@ const Auth = (props) => {
 const mapStateToProps = (state) => {
   return {
     isAuth: state.auth.isAuth,
+    isLoading: state.auth.isLoading,
   };
 };
 

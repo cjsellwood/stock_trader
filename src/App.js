@@ -4,10 +4,11 @@ import { Switch, Route, Link, useHistory } from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Protected from "./components/Protected";
-import Auth from "./components/Auth";
+import AuthRedirect from "./components/AuthRedirect";
 import AuthShow from "./components/AuthShow";
 import AuthHide from "./components/AuthHide";
 import Home from "./components/Home";
+import Search from "./components/Search";
 
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
@@ -24,8 +25,12 @@ const App = (props) => {
   // Authorize user if they have a valid token
   useEffect(() => {
     if (isLoggedIn()) {
-      props.onAuthorize()
+      props.onAuthorize();
+    } else {
+      history.push("/login")
     }
+    props.onLoadingFinish();
+    // eslint-disable-next-line
   }, []);
 
   const logout = () => {
@@ -54,6 +59,11 @@ const App = (props) => {
           </AuthHide>
           <AuthShow>
             <li>
+              <Link to="/search">Search</Link>
+            </li>
+          </AuthShow>
+          <AuthShow>
+            <li>
               <Link to="/protected">Protected</Link>
             </li>
           </AuthShow>
@@ -72,9 +82,14 @@ const App = (props) => {
           <Login />
         </Route>
         <Route path="/protected">
-          <Auth>
+          <AuthRedirect>
             <Protected />
-          </Auth>
+          </AuthRedirect>
+        </Route>
+        <Route path="/search">
+          <AuthRedirect>
+            <Search />
+          </AuthRedirect>
         </Route>
         <Route path="/">
           <Home />
@@ -82,13 +97,13 @@ const App = (props) => {
       </Switch>
     </div>
   );
-}
+};
 
 const mapStateToProps = (state) => {
   return {
     isAuth: state.auth.isAuth,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -97,8 +112,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     onDeauthorize: () => {
       dispatch(actions.deauthorize());
+    },
+    onLoadingFinish: () => {
+      dispatch(actions.loadingFinish())
     }
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
