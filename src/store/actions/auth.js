@@ -1,7 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import axios from "axios";
 
-
 // Authorize user
 export const authorize = () => {
   return {
@@ -23,10 +22,16 @@ export const loadingFinish = () => {
   };
 };
 
+export const setCash = (cash) => {
+  return {
+    type: actionTypes.SET_CASH,
+    cash,
+  };
+};
+
 // Handle login submission to backend
 export const postLogin = (loginForm, history) => {
   return (dispatch) => {
-
     axios
       .post("http://localhost:3000/login", {
         ...loginForm,
@@ -43,6 +48,10 @@ export const postLogin = (loginForm, history) => {
 
         // Login user with redux state auth
         dispatch(authorize());
+
+        // Save users cash
+        localStorage.setItem("cash", response.data.cash);
+        dispatch(setCash(response.data.cash));
       })
       .catch((error) => {
         console.log("ERROR", error.response.data.message);
@@ -70,10 +79,14 @@ export const postRegister = (registerForm, history) => {
 
         // Login user with redux state auth
         dispatch(authorize());
+
+        // Save users cash
+        localStorage.setItem("cash", response.data.cash);
+        dispatch(setCash(response.data.cash));
       })
       .catch((error) => {
         console.log("ERROR", error.response.data.message);
         // setErrorMessage(error.response.data.message);
       });
-  }
-}
+  };
+};

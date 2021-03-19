@@ -9,7 +9,7 @@ import AuthHide from "./components/AuthHide";
 import Home from "./components/Home";
 import Search from "./components/Search";
 import Stocks from "./components/Stocks";
-import Symbol from "./components/Symbol"
+import Symbol from "./components/Symbol";
 
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
@@ -27,6 +27,7 @@ const App = (props) => {
   useEffect(() => {
     if (isLoggedIn()) {
       props.onAuthorize();
+      props.onSetCash(localStorage.getItem("cash"))
     } else {
       history.push("/login");
     }
@@ -37,6 +38,7 @@ const App = (props) => {
   const logout = () => {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("jwtExpires");
+    localStorage.removeItem("cash");
     history.push("/");
     props.onDeauthorize();
   };
@@ -73,6 +75,9 @@ const App = (props) => {
               <button onClick={logout}>Log out</button>
             </li>
           </AuthShow>
+          <AuthShow>
+            <li>Cash: ${props.cash}</li>
+          </AuthShow>
         </ul>
       </nav>
       <Switch>
@@ -108,6 +113,7 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return {
     isAuth: state.auth.isAuth,
+    cash: state.auth.cash,
   };
 };
 
@@ -122,6 +128,9 @@ const mapDispatchToProps = (dispatch) => {
     onLoadingFinish: () => {
       dispatch(actions.loadingFinish());
     },
+    onSetCash: (cash) => {
+      dispatch(actions.setCash(cash));
+    }
   };
 };
 

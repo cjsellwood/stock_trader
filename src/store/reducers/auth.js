@@ -26,6 +26,13 @@ const loadingFinish = (state, action) => {
   }
 }
 
+const setCash = (state, action) => {
+  return {
+    ...state,
+    cash: action.cash
+  }
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTHORIZE:
@@ -34,6 +41,8 @@ const reducer = (state = initialState, action) => {
       return deauthorize(state, action);
     case actionTypes.LOADING_FINISH:
       return loadingFinish(state,action);
+    case actionTypes.SET_CASH:
+      return setCash(state, action)
     default:
       return state;
   }
