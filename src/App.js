@@ -9,6 +9,7 @@ import AuthShow from "./components/AuthShow";
 import AuthHide from "./components/AuthHide";
 import Home from "./components/Home";
 import Search from "./components/Search";
+import Stocks from "./components/Stocks";
 
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
@@ -27,7 +28,7 @@ const App = (props) => {
     if (isLoggedIn()) {
       props.onAuthorize();
     } else {
-      history.push("/login")
+      history.push("/login");
     }
     props.onLoadingFinish();
     // eslint-disable-next-line
@@ -57,6 +58,11 @@ const App = (props) => {
               <Link to="/login">Login</Link>
             </li>
           </AuthHide>
+          <AuthShow>
+            <li>
+              <Link to="/stocks">Stocks</Link>
+            </li>
+          </AuthShow>
           <AuthShow>
             <li>
               <Link to="/search">Search</Link>
@@ -91,6 +97,11 @@ const App = (props) => {
             <Search />
           </AuthRedirect>
         </Route>
+        <Route path="/stocks">
+          <AuthRedirect>
+            <Stocks />
+          </AuthRedirect>
+        </Route>
         <Route path="/">
           <Home />
         </Route>
@@ -114,8 +125,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.deauthorize());
     },
     onLoadingFinish: () => {
-      dispatch(actions.loadingFinish())
-    }
+      dispatch(actions.loadingFinish());
+    },
   };
 };
 

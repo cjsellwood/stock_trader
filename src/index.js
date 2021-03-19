@@ -6,12 +6,15 @@ import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import auth from "./store/reducers/auth";
+import stocks from "./store/reducers/stocks"
 import thunk from "redux-thunk";
+
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   auth: auth,
+  stocks: stocks,
 });
 
 const store = createStore(
