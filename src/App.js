@@ -10,6 +10,7 @@ import Home from "./components/Home";
 import Search from "./components/Search";
 import Stocks from "./components/Stocks";
 import Symbol from "./components/Symbol";
+import Transactions from "./components/Transactions"
 
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
@@ -62,6 +63,11 @@ const App = (props) => {
           </AuthHide>
           <AuthShow>
             <li>
+              <Link to="/transactions">Transactions</Link>
+            </li>
+          </AuthShow>
+          <AuthShow>
+            <li>
               <Link to="/stocks">Stocks</Link>
             </li>
           </AuthShow>
@@ -90,6 +96,11 @@ const App = (props) => {
         <Route path="/search">
           <AuthRedirect>
             <Search />
+          </AuthRedirect>
+        </Route>
+        <Route path="/transactions">
+          <AuthRedirect>
+            <Transactions />
           </AuthRedirect>
         </Route>
         <Route path="/stocks/:symbol">

@@ -38,6 +38,13 @@ export const updateQuantity = (symbol, value) => {
   };
 };
 
+export const newTransaction = (transaction) => {
+  return {
+    type: actionTypes.NEW_TRANSACTION,
+    transaction,
+  }
+}
+
 // Buy a stock on the backend
 export const buyStock = (symbol, quantity, index) => {
   return (dispatch) => {
@@ -60,6 +67,33 @@ export const buyStock = (symbol, quantity, index) => {
         localStorage.setItem("cash", response.data.cash)
 
         // Push to transactions state
+        dispatch(actions.newTransaction(response.data.transaction))
+      })
+      .catch((err) => {
+        console.dir(err);
+      });
+  };
+};
+
+export const loadTransactions = (transactions) => {
+  return {
+    type: actionTypes.LOAD_TRANSACTIONS,
+    transactions,
+  }
+}
+
+// Fetch stocks from database
+export const fetchTransactions = () => {
+  return (dispatch) => {
+    const jwtToken = localStorage.getItem("jwtToken");
+    axios
+      .get("http://localhost:3000/stocks/transactions", {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch(loadTransactions(response.data.transactions));
       })
       .catch((err) => {
         console.dir(err);
