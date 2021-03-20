@@ -6,4 +6,4 @@ export {
   postRegister,
   setCash,
 } from "./auth";
-export { loadStocks, fetchStocks } from "./stocks";
+export { loadStocks, fetchStocks, updateQuantity, buyStock } from "./stocks";

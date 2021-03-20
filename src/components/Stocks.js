@@ -8,12 +8,37 @@ const Stocks = (props) => {
     // If hasn't been run before fetch stocks from database
     if (!props.stocks.length) {
       props.onFetchStocks();
+    } else {
+      // Reset buy quantity for all stocks
+      for (let stock of props.stocks) {
+        props.onUpdateQuantity(stock.symbol, 0);
+      }
     }
 
     // eslint-disable-next-line
   }, []);
 
-  let displayStocks = props.stocks.map((stock) => {
+  const buyStock = (e) => {
+    e.preventDefault();
+    const symbol = e.target.getAttribute("data-symbol");
+
+    // Find index of stock being bought
+    const index = props.stocks.findIndex((stock) => stock.symbol === symbol);
+
+    // Check if user can afford to buy the quantity entered
+    const price =
+      props.stocks[index].prices[props.stocks[index].prices.length - 1];
+    const quantity = props.stocks[index].buyQuantity;
+    const totalPrice = price * quantity;
+    console.log(totalPrice);
+    if (totalPrice !== 0 && totalPrice < props.cash) {
+      props.onBuyStock(symbol, quantity, index);
+    } else {
+      console.log("Can't Afford or quantity 0");
+    }
+  };
+
+  const displayStocks = props.stocks.map((stock) => {
     // Percentage change since yesterday
     const change =
       ((stock.prices[stock.prices.length - 1] -
@@ -29,6 +54,41 @@ const Stocks = (props) => {
         <td>{stock.companyName}</td>
         <td> {stock.prices.length > 1 ? change.toFixed(2) + "%" : "-"}</td>
         <td>{stock.prices[stock.prices.length - 1].toFixed(2)}</td>
+        <td>
+          <form onSubmit={buyStock} data-symbol={stock.symbol}>
+            <button
+              type="button"
+              aria-label="subtract 1"
+              onClick={() =>
+                props.onUpdateQuantity(stock.symbol, stock.buyQuantity - 1)
+              }
+            >
+              -
+            </button>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              aria-label="quantity"
+              value={stock.buyQuantity}
+              min="0"
+              onChange={(e) =>
+                props.onUpdateQuantity(stock.symbol, e.target.value)
+              }
+            />
+            <button
+              type="button"
+              aria-label="add 1"
+              onClick={() =>
+                props.onUpdateQuantity(stock.symbol, stock.buyQuantity + 1)
+              }
+            >
+              +
+            </button>
+            {/* <span>{stock.prices[stock.prices.length - 1] * stock.buyQuantity}</span> */}
+            <button type="submit">Buy</button>
+          </form>
+        </td>
       </tr>
     );
   });
@@ -42,6 +102,7 @@ const Stocks = (props) => {
             <th>Company</th>
             <th>Change</th>
             <th>Price</th>
+            <th>Buy</th>
           </tr>
         </thead>
         <tbody>{displayStocks}</tbody>
@@ -53,14 +114,21 @@ const Stocks = (props) => {
 const mapStateToProps = (state) => {
   return {
     stocks: state.stocks.stocks,
+    cash: state.auth.cash,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchStocks: () => {
-      dispatch(actions.fetchStocks())
-    }
+      dispatch(actions.fetchStocks());
+    },
+    onUpdateQuantity: (symbol, value) => {
+      dispatch(actions.updateQuantity(symbol, value));
+    },
+    onBuyStock: (symbol, quantity, index) => {
+      dispatch(actions.buyStock(symbol, quantity, index));
+    },
   };
 };
 
