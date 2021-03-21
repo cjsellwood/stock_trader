@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 import * as actions from "../store/actions/index";
 
 const Transactions = (props) => {
@@ -14,13 +14,12 @@ const Transactions = (props) => {
   });
 
   const displayTransactions = props.transactions.map((transaction) => {
-    const stock = props.stocks.filter(el => {
-      return transaction.stock === el._id
-    })[0]
+    const stock = props.stocks.filter((el) => {
+      return transaction.stock === el._id;
+    })[0];
     return (
-      <tr>
+      <tr key={transaction._id}>
         <td>
-          {" "}
           <Link to={`/stocks/${stock.symbol}`}>{stock.symbol}</Link>
         </td>
         <td>{stock.companyName}</td>
@@ -28,10 +27,11 @@ const Transactions = (props) => {
         <td>{transaction.quantity}</td>
         <td>{transaction.price}</td>
       </tr>
-    )
-  })
-  return <div>
-    <table>
+    );
+  });
+  return (
+    <div>
+      <table>
         <thead>
           <tr>
             <th>Symbol</th>
@@ -43,7 +43,8 @@ const Transactions = (props) => {
         </thead>
         <tbody>{displayTransactions}</tbody>
       </table>
-  </div>;
+    </div>
+  );
 };
 
 const mapStateToProps = (state) => {

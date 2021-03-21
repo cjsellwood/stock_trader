@@ -48,11 +48,10 @@ const Stocks = (props) => {
     return (
       <tr key={stock.symbol}>
         <td>
-          {" "}
           <Link to={`/stocks/${stock.symbol}`}>{stock.symbol}</Link>
         </td>
         <td>{stock.companyName}</td>
-        <td> {stock.prices.length > 1 ? change.toFixed(2) + "%" : "-"}</td>
+        <td>{stock.prices.length > 1 ? change.toFixed(2) + "%" : "-"}</td>
         <td>{stock.prices[stock.prices.length - 1].toFixed(2)}</td>
         <td>
           <form onSubmit={buyStock} data-symbol={stock.symbol}>

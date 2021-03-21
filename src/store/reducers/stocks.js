@@ -4,6 +4,7 @@ const initialState = {
   stocks: [],
   transactions: [],
   isTransactionsLoaded: false,
+  owned: {},
 };
 
 const loadStocks = (state, action) => {
@@ -43,18 +44,50 @@ const updateQuantity = (state, action) => {
   };
 };
 
+// Create inventory of users stocks by summing users transactions
+const createOwned = (state, transactions) => {
+  const owned = {};
+  for (let transaction of transactions) {
+    const stock = state.stocks.filter((el) => {
+      return transaction.stock === el._id;
+    })[0];
+
+    // If not entry for stock create new
+    if (!owned[stock.symbol]) {
+      owned[stock.symbol] = {};
+      owned[stock.symbol].companyName = stock.companyName;
+      owned[stock.symbol].prices = stock.prices;
+    }
+
+    // Get current quantity or set to 0 if not defined
+    const currentQuantity = owned[stock.symbol].quantity;
+    if (!currentQuantity) {
+      owned[stock.symbol].quantity = 0;
+    }
+    owned[stock.symbol].quantity =
+      owned[stock.symbol].quantity + transaction.quantity;
+  }
+  return owned;
+};
+
 const loadTransactions = (state, action) => {
+  const transactions = action.transactions;
+  const owned = createOwned(state, transactions);
   return {
     ...state,
     isTransactionsLoaded: true,
-    transactions: action.transactions,
+    transactions,
+    owned,
   };
 };
 
 const newTransaction = (state, action) => {
+  const transactions = [...state.transactions, action.transaction];
+  const owned = createOwned(state, transactions);
   return {
     ...state,
-    transactions: [...state.transactions, action.transaction],
+    transactions,
+    owned,
   };
 };
 

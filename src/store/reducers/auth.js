@@ -29,7 +29,7 @@ const loadingFinish = (state, action) => {
 const setCash = (state, action) => {
   return {
     ...state,
-    cash: action.cash
+    cash: Number(action.cash)
   }
 }
 

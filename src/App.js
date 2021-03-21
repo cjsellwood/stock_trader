@@ -10,7 +10,8 @@ import Home from "./components/Home";
 import Search from "./components/Search";
 import Stocks from "./components/Stocks";
 import Symbol from "./components/Symbol";
-import Transactions from "./components/Transactions"
+import Transactions from "./components/Transactions";
+import Owned from "./components/Owned";
 
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
@@ -28,7 +29,7 @@ const App = (props) => {
   useEffect(() => {
     if (isLoggedIn()) {
       props.onAuthorize();
-      props.onSetCash(localStorage.getItem("cash"))
+      props.onSetCash(localStorage.getItem("cash"));
     } else {
       history.push("/login");
     }
@@ -73,6 +74,11 @@ const App = (props) => {
           </AuthShow>
           <AuthShow>
             <li>
+              <Link to="/owned">Owned</Link>
+            </li>
+          </AuthShow>
+          <AuthShow>
+            <li>
               <Link to="/search">Search</Link>
             </li>
           </AuthShow>
@@ -108,6 +114,11 @@ const App = (props) => {
             <Symbol />
           </AuthRedirect>
         </Route>
+        <Route path="/owned">
+          <AuthRedirect>
+            <Owned />
+          </AuthRedirect>
+        </Route>
         <Route path="/stocks">
           <AuthRedirect>
             <Stocks />
@@ -141,7 +152,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onSetCash: (cash) => {
       dispatch(actions.setCash(cash));
-    }
+    },
   };
 };
 
