@@ -17,34 +17,27 @@ const Owned = (props) => {
   const displayOwned = [];
   for (let key in props.owned) {
     // Percentage change since yesterday
+    const stock = props.owned[key];
     const change =
-      ((props.owned[key].prices[props.owned[key].prices.length - 1] -
-        props.owned[key].prices[props.owned[key].prices.length - 2]) /
-        props.owned[key].prices[props.owned[key].prices.length - 2]) *
+      ((stock.prices[stock.prices.length - 1] -
+        stock.prices[stock.prices.length - 2]) /
+        stock.prices[stock.prices.length - 2]) *
       100;
     displayOwned.push(
       <tr key={key}>
         <td>
           <Link to={`/stocks/${key}`}>{key}</Link>
         </td>
-        <td>{props.owned[key].companyName}</td>
-        <td>
-          {props.owned[key].prices.length > 1 ? change.toFixed(2) + "%" : "-"}
-        </td>
-        <td>{props.owned[key].quantity}</td>
-        <td>
-          {props.owned[key].prices[props.owned[key].prices.length - 1].toFixed(
-            2
-          )}
-        </td>
+        <td>{stock.companyName}</td>
+        <td>{stock.prices.length > 1 ? change.toFixed(2) + "%" : "-"}</td>
+        <td>{stock.quantity}</td>
+        <td>{stock.prices[stock.prices.length - 1].toFixed(2)}</td>
+        <td>{(stock.prices[stock.prices.length - 1] * stock.quantity).toFixed(2)}</td>
       </tr>
     );
 
     // Add to total value
-    totalValue += (
-      props.owned[key].prices[props.owned[key].prices.length - 1] *
-      props.owned[key].quantity
-    );
+    totalValue += stock.prices[stock.prices.length - 1] * stock.quantity;
   }
 
   return (
@@ -59,12 +52,14 @@ const Owned = (props) => {
               <th>Change</th>
               <th>Quantity</th>
               <th>Price</th>
+              <th>Value</th>
             </tr>
             <tr></tr>
           </thead>
           <tbody>{displayOwned}</tbody>
           <tfoot>
-          <tr>
+            <tr>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -72,6 +67,7 @@ const Owned = (props) => {
               <td>{props.cash.toFixed(2)}</td>
             </tr>
             <tr>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
