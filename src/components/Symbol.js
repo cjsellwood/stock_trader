@@ -1,13 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as actions from "../store/actions/index";
 
 const Symbol = (props) => {
   // If hasn't been run before
-  if (!props.stocks.length) {
-    props.onFetchStocks();
-  }
+  useEffect(() => {
+    if (!props.stocks.length) {
+      props.onFetchStocks();
+    } else {
+      console.log(props.stocks);
+      // Reset buy quantity for all stocks
+      for (let stock of props.stocks) {
+        props.onUpdateQuantity(stock.symbol, 0);
+      }
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  // Buy a stock
+  const buyStock = (e) => {
+    e.preventDefault();
+    const symbol = e.target.getAttribute("data-symbol");
+
+    // Find index of stock being bought
+    const index = props.stocks.findIndex((stock) => stock.symbol === symbol);
+
+    // Check if user can afford to buy the quantity entered
+    const price =
+      props.stocks[index].prices[props.stocks[index].prices.length - 1];
+    const quantity = props.stocks[index].buyQuantity;
+    const totalPrice = price * quantity;
+    console.log(totalPrice);
+    if (totalPrice !== 0 && totalPrice < props.cash) {
+      props.onBuyStock(symbol, quantity, index);
+    } else {
+      console.log("Can't Afford or quantity 0");
+    }
+  };
 
   // Find stock with with symbol in url
   const { symbol } = useParams();
@@ -17,19 +47,53 @@ const Symbol = (props) => {
 
   let displayStock = [];
   if (stock.length) {
-    console.log(stock.length);
     displayStock = stock.map((el) => {
       return (
-        <React.Fragment>
+        <div key={el.symbol}>
           <h1>{el.symbol}</h1>
           <p>{el.companyName}</p>
-          {el.prices.map((price) => {
-            return <span>{price}, </span>;
+          <p>Price history</p>
+          {el.prices.map((price, index) => {
+            return <span key={index}>{price}, </span>;
           })}
-        </React.Fragment>
+          <form onSubmit={buyStock} data-symbol={el.symbol}>
+            <button
+              type="button"
+              aria-label="subtract 1"
+              onClick={() =>
+                props.onUpdateQuantity(el.symbol, el.buyQuantity - 1)
+              }
+            >
+              -
+            </button>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              aria-label="quantity"
+              value={el.buyQuantity}
+              min="0"
+              onChange={(e) =>
+                props.onUpdateQuantity(el.symbol, e.target.value)
+              }
+            />
+            <button
+              type="button"
+              aria-label="add 1"
+              onClick={() =>
+                props.onUpdateQuantity(el.symbol, el.buyQuantity + 1)
+              }
+            >
+              +
+            </button>
+            {/* <span>{stock.prices[stock.prices.length - 1] * stock.buyQuantity}</span> */}
+            <button type="submit">Buy</button>
+          </form>
+        </div>
       );
     });
   }
+
   return <div>{displayStock}</div>;
 };
 
@@ -43,6 +107,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onFetchStocks: () => {
       dispatch(actions.fetchStocks());
+    },
+    onUpdateQuantity: (symbol, value) => {
+      dispatch(actions.updateQuantity(symbol, value));
+    },
+    onBuyStock: (symbol, quantity, index) => {
+      dispatch(actions.buyStock(symbol, quantity, index));
     },
   };
 };

@@ -18,6 +18,7 @@ const Stocks = (props) => {
     // eslint-disable-next-line
   }, []);
 
+  // Buy a stock
   const buyStock = (e) => {
     e.preventDefault();
     const symbol = e.target.getAttribute("data-symbol");
@@ -33,6 +34,7 @@ const Stocks = (props) => {
     console.log(totalPrice);
     if (totalPrice !== 0 && totalPrice < props.cash) {
       props.onBuyStock(symbol, quantity, index);
+      props.onUpdateQuantity(symbol, 0);
     } else {
       console.log("Can't Afford or quantity 0");
     }
