@@ -10,4 +10,6 @@ export const NEW_TRANSACTION = "NEW_TRANSACTION";
 
 export const SET_CASH = "SET_CASH";
 
+export const ADD_STOCK = "ADD_STOCK";
+export const ADD_NEW_ID = "ADD_NEW_ID";
 

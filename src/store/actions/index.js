@@ -13,4 +13,5 @@ export {
   buyStock,
   fetchTransactions,
   newTransaction,
+  addStock,
 } from "./stocks";

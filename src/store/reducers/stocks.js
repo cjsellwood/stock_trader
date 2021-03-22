@@ -31,7 +31,7 @@ const updateQuantity = (state, action) => {
 
   // Find index of stock being bought
   const index = stocksCopy.findIndex((stock) => stock.symbol === action.symbol);
-  stocksCopy[index].buyQuantity = action.value;
+  stocksCopy[index].buyQuantity = Number(action.value);
 
   // Do nothing if the value will become negative
   if (stocksCopy[index].buyQuantity < 0) {
@@ -91,6 +91,33 @@ const newTransaction = (state, action) => {
   };
 };
 
+const addStock = (state, action) => {
+  return {
+    ...state,
+    stocks: [...state.stocks, action.stock],
+  };
+};
+
+// Add id to last added stock if not included
+const addNewId = (state, action) => {
+  const stocksCopy = [];
+  for (let stock of state.stocks) {
+    stocksCopy.push({
+      ...stock,
+      prices: [...stock.prices],
+    });
+  }
+
+  if (!stocksCopy[stocksCopy.length - 1]._id) {
+    stocksCopy[stocksCopy.length - 1]._id = action._id
+  }
+
+  return {
+    ...state,
+    stocks: stocksCopy,
+  };
+};
+
 const stocksReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOAD_STOCKS:
@@ -101,6 +128,10 @@ const stocksReducer = (state = initialState, action) => {
       return loadTransactions(state, action);
     case actionTypes.NEW_TRANSACTION:
       return newTransaction(state, action);
+    case actionTypes.ADD_STOCK:
+      return addStock(state, action);
+    case actionTypes.ADD_NEW_ID:
+      return addNewId(state, action);
     default:
       return state;
   }

@@ -33,7 +33,7 @@ const Symbol = (props) => {
     const totalPrice = price * quantity;
     console.log(totalPrice);
     if (totalPrice !== 0 && totalPrice < props.cash) {
-      props.onBuyStock(symbol, quantity, index);
+      props.onBuyStock(props.stocks[index], quantity, index);
     } else {
       console.log("Can't Afford or quantity 0");
     }
@@ -111,8 +111,8 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateQuantity: (symbol, value) => {
       dispatch(actions.updateQuantity(symbol, value));
     },
-    onBuyStock: (symbol, quantity, index) => {
-      dispatch(actions.buyStock(symbol, quantity, index));
+    onBuyStock: (stock, quantity, index) => {
+      dispatch(actions.buyStock(stock, quantity, index));
     },
   };
 };

@@ -45,14 +45,21 @@ export const newTransaction = (transaction) => {
   }
 }
 
+export const addNewId = (_id) => {
+  return {
+    type: actionTypes.ADD_NEW_ID,
+    _id,
+  }
+}
+
 // Buy a stock on the backend
-export const buyStock = (symbol, quantity, index) => {
+export const buyStock = (stock, quantity, index) => {
   return (dispatch) => {
     const jwtToken = localStorage.getItem("jwtToken");
     axios
       .post(
         "http://localhost:3000/stocks/buy",
-        { symbol, quantity },
+        { stock, quantity },
         {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -61,6 +68,9 @@ export const buyStock = (symbol, quantity, index) => {
       )
       .then((response) => {
         console.log(response.data);
+
+        // Add id if result was from stock api search
+        dispatch(addNewId(response.data.newId));
 
         // Save updated cash value
         dispatch(actions.setCash(response.data.cash))
@@ -82,6 +92,7 @@ export const loadTransactions = (transactions) => {
   }
 }
 
+
 // Fetch stocks from database
 export const fetchTransactions = () => {
   return (dispatch) => {
@@ -100,3 +111,11 @@ export const fetchTransactions = () => {
       });
   };
 };
+
+// Add new stock to state from search results
+export const addStock = (stock) => {
+  return {
+    type: actionTypes.ADD_STOCK,
+    stock,
+  }
+}
