@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/stock_trader/static/css/main.bab0b925.chunk.css",
+    "main.js": "/stock_trader/static/js/main.bce48a9e.chunk.js",
+    "main.js.map": "/stock_trader/static/js/main.bce48a9e.chunk.js.map",
+    "runtime-main.js": "/stock_trader/static/js/runtime-main.e6e763f8.js",
+    "runtime-main.js.map": "/stock_trader/static/js/runtime-main.e6e763f8.js.map",
+    "static/js/2.f051c23e.chunk.js": "/stock_trader/static/js/2.f051c23e.chunk.js",
+    "static/js/2.f051c23e.chunk.js.map": "/stock_trader/static/js/2.f051c23e.chunk.js.map",
+    "index.html": "/stock_trader/index.html",
+    "static/css/main.bab0b925.chunk.css.map": "/stock_trader/static/css/main.bab0b925.chunk.css.map",
+    "static/js/2.f051c23e.chunk.js.LICENSE.txt": "/stock_trader/static/js/2.f051c23e.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e6e763f8.js",
+    "static/js/2.f051c23e.chunk.js",
+    "static/css/main.bab0b925.chunk.css",
+    "static/js/main.bce48a9e.chunk.js"
+  ]
+}
