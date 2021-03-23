@@ -23,8 +23,12 @@ export const fetchStocks = () => {
       .then((response) => {
         dispatch(loadStocks(response.data.stocks));
       })
-      .catch((err) => {
-        dispatch(actions.setErrorMessage(err.response.data.message))
+      .catch((error) => {
+        if (error.response) {
+          dispatch(actions.setErrorMessage(error.response.data.message))
+        } else {
+          dispatch(actions.setErrorMessage("Something went wrong"))
+        }
       });
   };
 };
@@ -79,8 +83,12 @@ export const buyStock = (stock, quantity, index) => {
         // Push to transactions state
         dispatch(actions.newTransaction(response.data.transaction));
       })
-      .catch((err) => {
-        dispatch(actions.setErrorMessage(err.response.data.message))
+      .catch((error) => {
+        if (error.response) {
+          dispatch(actions.setErrorMessage(error.response.data.message))
+        } else {
+          dispatch(actions.setErrorMessage("Something went wrong"))
+        }
       });
   };
 };
@@ -105,8 +113,12 @@ export const fetchTransactions = () => {
       .then((response) => {
         dispatch(loadTransactions(response.data.transactions));
       })
-      .catch((err) => {
-        dispatch(actions.setErrorMessage(err.response.data.message))
+      .catch((error) => {
+        if (error.response) {
+          dispatch(actions.setErrorMessage(error.response.data.message))
+        } else {
+          dispatch(actions.setErrorMessage("Something went wrong"))
+        }
       });
   };
 };

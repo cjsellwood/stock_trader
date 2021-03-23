@@ -26,7 +26,6 @@ const Login = (props) => {
   // Submit register form handler
   const handleSubmission = (e) => {
     e.preventDefault();
-    // setErrorMessage("");
 
     // Submit to backend
     props.onPostLogin(loginForm, history)

@@ -92,7 +92,11 @@ const Search = (props) => {
         })
         .catch((error) => {
           setIndex(-1);
-          props.onSetErrorMessage(error.response.data.message);
+          if (error.response) {
+            props.onSetErrorMessage(error.response.data.message);
+          } else {
+            props.onSetErrorMessage("Something went wrong")
+          }
         });
     }
   };

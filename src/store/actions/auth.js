@@ -61,8 +61,11 @@ export const postLogin = (loginForm, history) => {
         dispatch(setCash(response.data.cash));
       })
       .catch((error) => {
-        console.log("ERROR", error.response.data.message);
-        dispatch(setErrorMessage(error.response.data.message))
+        if (error.response) {
+          dispatch(setErrorMessage(error.response.data.message))
+        } else {
+          dispatch(setErrorMessage("Something went wrong"))
+        }
       });
   };
 };
@@ -92,8 +95,11 @@ export const postRegister = (registerForm, history) => {
         dispatch(setCash(response.data.cash));
       })
       .catch((error) => {
-        console.log("ERROR", error.response.data.message);
-        dispatch(setErrorMessage(error.response.data.message))
+        if (error.response) {
+          dispatch(setErrorMessage(error.response.data.message))
+        } else {
+          dispatch(setErrorMessage("Something went wrong"))
+        }
       });
   };
 };
