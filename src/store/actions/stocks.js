@@ -24,7 +24,7 @@ export const fetchStocks = () => {
         dispatch(loadStocks(response.data.stocks));
       })
       .catch((err) => {
-        console.dir(err);
+        dispatch(actions.setErrorMessage(err.response.data.message))
       });
   };
 };
@@ -69,8 +69,6 @@ export const buyStock = (stock, quantity, index) => {
         }
       )
       .then((response) => {
-        console.log(response.data);
-
         // Add id if result was from stock api search
         dispatch(addNewId(response.data.newId));
 
@@ -82,7 +80,7 @@ export const buyStock = (stock, quantity, index) => {
         dispatch(actions.newTransaction(response.data.transaction));
       })
       .catch((err) => {
-        console.dir(err);
+        dispatch(actions.setErrorMessage(err.response.data.message))
       });
   };
 };
@@ -108,7 +106,7 @@ export const fetchTransactions = () => {
         dispatch(loadTransactions(response.data.transactions));
       })
       .catch((err) => {
-        console.dir(err);
+        dispatch(actions.setErrorMessage(err.response.data.message))
       });
   };
 };

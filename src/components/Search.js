@@ -31,11 +31,15 @@ const Search = (props) => {
       props.stocks[index].prices[props.stocks[index].prices.length - 1];
     const quantity = props.stocks[index].buyQuantity;
     const totalPrice = price * quantity;
-    console.log(totalPrice);
     if (totalPrice !== 0 && totalPrice < props.cash) {
       props.onBuyStock(props.stocks[index], quantity, index);
     } else {
-      console.log("Can't Afford or quantity 0");
+      if (quantity === 0) {
+        props.onSetErrorMessage("Quantity cannot be 0")
+      }
+      if (totalPrice < props.cash) {
+        props.onSetErrorMessage("Cannot afford")
+      }
     }
   };
 
@@ -44,10 +48,10 @@ const Search = (props) => {
   // Update search term with users input
   const handleInput = (e) => {
     setSearch(e.target.value);
+    props.onSetErrorMessage("")
   };
 
   const [index, setIndex] = useState(-1);
-  const [errorMessage, setErrorMessage] = useState("");
 
   // Handle submission of search form
   const handleSubmission = (e) => {
@@ -61,30 +65,18 @@ const Search = (props) => {
 
     // If found in state display results from it
     if (searchIndex !== -1) {
-      // setStock([
-      //   {
-      //     symbol: props.stocks[index].symbol,
-      //     companyName: props.stocks[index].companyName,
-      //     prices: props.stocks[index].prices,
-      //     buyQuantity: 0,
-      //   },
-      // ]);
-      setErrorMessage("");
+      props.onSetErrorMessage("")
       setIndex(searchIndex);
     } else {
       // If not found in state check database and stock api
       const jwtToken = localStorage.getItem("jwtToken");
       axios
-        .get(`http://localhost:3000/search`, {
-          params: {
-            symbol: search,
-          },
+        .post(`http://localhost:3000/search`, {symbol: search}, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         })
         .then((response) => {
-          console.log(response);
           const result = response.data;
 
           // Add stock to state
@@ -97,22 +89,10 @@ const Search = (props) => {
 
           // Index will then be set to the newly added stock which is last
           setIndex(props.stocks.length);
-
-          // Show found data for stock
-          // setStock([
-          //   {
-          //     symbol: result.symbol,
-          //     companyName: result.companyName,
-          //     prices: result.prices,
-          //     buyQuantity: 0,
-          //   },
-          // ]);
-          setErrorMessage("");
         })
         .catch((error) => {
-          console.log(error);
-          setIndex(-1)
-          setErrorMessage(error.response.data.message);
+          setIndex(-1);
+          props.onSetErrorMessage(error.response.data.message);
         });
     }
   };
@@ -189,7 +169,6 @@ const Search = (props) => {
         </div>
         <button type="submit">Search</button>
       </form>
-      <h1>{errorMessage}</h1>
       {displayStock}
     </div>
   );
@@ -214,8 +193,11 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.buyStock(stock, quantity, index));
     },
     onAddStock: (stock) => {
-      dispatch(actions.addStock(stock))
-    }
+      dispatch(actions.addStock(stock));
+    },
+    onSetErrorMessage: (message) => {
+      dispatch(actions.setErrorMessage(message));
+    },
   };
 };
 

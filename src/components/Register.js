@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actions from "../store/actions/index"
+import * as actions from "../store/actions/index";
 
 const Register = (props) => {
   const [registerForm, setRegisterForm] = useState({
@@ -9,8 +9,6 @@ const Register = (props) => {
     password: "",
     confirmPassword: "",
   });
-
-  // const [errorMessage, setErrorMessage] = useState("");
 
   let history = useHistory();
 
@@ -21,16 +19,15 @@ const Register = (props) => {
       [e.target.name]: e.target.value,
     };
     setRegisterForm(registerFormCopy);
+    props.onSetErrorMessage("")
   };
 
   // Submit register form handler
   const handleSubmission = (e) => {
     e.preventDefault();
-    console.log(registerForm);
-    // setErrorMessage("");
 
     // Submit to backend
-    props.onPostRegister(registerForm, history)
+    props.onPostRegister(registerForm, history);
   };
 
   return (
@@ -45,6 +42,7 @@ const Register = (props) => {
             name="username"
             value={registerForm.username}
             onChange={handleInput}
+            required
           />
         </div>
         <div>
@@ -55,6 +53,8 @@ const Register = (props) => {
             name="password"
             value={registerForm.password}
             onChange={handleInput}
+            required
+            minLength="8"
           />
         </div>
         <div>
@@ -65,6 +65,8 @@ const Register = (props) => {
             name="confirmPassword"
             value={registerForm.confirmPassword}
             onChange={handleInput}
+            required
+            minLength="8"
           />
         </div>
         <button type="submit" aria-label="submit">
@@ -79,9 +81,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onPostRegister: (registerForm, history) => {
       dispatch(actions.postRegister(registerForm, history));
+    },
+    onSetErrorMessage: (message) => {
+      dispatch(actions.setErrorMessage(message))
     }
-  }
-}
+  };
+};
 
 export default connect(null, mapDispatchToProps)(Register);
-

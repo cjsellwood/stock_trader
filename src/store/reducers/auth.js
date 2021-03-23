@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   isAuth: false,
   isLoading: true,
+  errorMessage: "",
 };
 
 const authorize = (state, action) => {
@@ -33,6 +34,13 @@ const setCash = (state, action) => {
   }
 }
 
+const setErrorMessage = (state, action) => {
+  return {
+    ...state,
+    errorMessage: action.message
+  }
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTHORIZE:
@@ -43,6 +51,8 @@ const reducer = (state = initialState, action) => {
       return loadingFinish(state,action);
     case actionTypes.SET_CASH:
       return setCash(state, action)
+    case actionTypes.SET_ERROR_MESSAGE:
+      return setErrorMessage(state, action)
     default:
       return state;
   }

@@ -19,6 +19,11 @@ import * as actions from "./store/actions/index";
 const App = (props) => {
   let history = useHistory();
 
+  // Reset error message if changing pages
+  history.listen((location) => {
+    props.onSetErrorMessage("")
+  })
+
   // Check if user has a valid token in local storage
   const isLoggedIn = () => {
     const expiration = localStorage.getItem("jwtExpires");
@@ -30,8 +35,6 @@ const App = (props) => {
     if (isLoggedIn()) {
       props.onAuthorize();
       props.onSetCash(localStorage.getItem("cash"));
-    } else {
-      history.push("/login");
     }
     props.onLoadingFinish();
     // eslint-disable-next-line
@@ -50,7 +53,7 @@ const App = (props) => {
       <nav>
         <ul>
           <li>
-            <Link to="/home">Home</Link>
+            <Link to="/">Home</Link>
           </li>
           <AuthHide>
             <li>
@@ -90,44 +93,50 @@ const App = (props) => {
           <AuthShow>
             <li>Cash: ${props.cash}</li>
           </AuthShow>
+          <h2>{props.errorMessage}</h2>
         </ul>
       </nav>
-      <Switch>
-        <Route path="/register">
-          <Register />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/search">
-          <AuthRedirect>
-            <Search />
-          </AuthRedirect>
-        </Route>
-        <Route path="/transactions">
-          <AuthRedirect>
-            <Transactions />
-          </AuthRedirect>
-        </Route>
-        <Route path="/stocks/:symbol">
-          <AuthRedirect>
-            <Symbol />
-          </AuthRedirect>
-        </Route>
-        <Route path="/owned">
-          <AuthRedirect>
-            <Owned />
-          </AuthRedirect>
-        </Route>
-        <Route path="/stocks">
-          <AuthRedirect>
-            <Stocks />
-          </AuthRedirect>
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
+      <main>
+        <Switch>
+          <Route path="/" exact>
+            <Home />
+          </Route>
+          <Route path="/register">
+            <Register />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/search">
+            <AuthRedirect>
+              <Search />
+            </AuthRedirect>
+          </Route>
+          <Route path="/transactions">
+            <AuthRedirect>
+              <Transactions />
+            </AuthRedirect>
+          </Route>
+          <Route path="/stocks/:symbol">
+            <AuthRedirect>
+              <Symbol />
+            </AuthRedirect>
+          </Route>
+          <Route path="/owned">
+            <AuthRedirect>
+              <Owned />
+            </AuthRedirect>
+          </Route>
+          <Route path="/stocks">
+            <AuthRedirect>
+              <Stocks />
+            </AuthRedirect>
+          </Route>
+        </Switch>
+      </main>
+      <footer>
+        <a href="https://iexcloud.io">Data provided by IEX Cloud</a>
+      </footer>
     </div>
   );
 };
@@ -136,6 +145,7 @@ const mapStateToProps = (state) => {
   return {
     isAuth: state.auth.isAuth,
     cash: state.auth.cash,
+    errorMessage: state.auth.errorMessage,
   };
 };
 
@@ -153,6 +163,9 @@ const mapDispatchToProps = (dispatch) => {
     onSetCash: (cash) => {
       dispatch(actions.setCash(cash));
     },
+    onSetErrorMessage: (message) => {
+      dispatch(actions.setErrorMessage(message))
+    }
   };
 };
 

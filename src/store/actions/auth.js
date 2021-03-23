@@ -29,6 +29,13 @@ export const setCash = (cash) => {
   };
 };
 
+export const setErrorMessage = (message) => {
+  return {
+    type: actionTypes.SET_ERROR_MESSAGE,
+    message,
+  }
+}
+
 // Handle login submission to backend
 export const postLogin = (loginForm, history) => {
   return (dispatch) => {
@@ -55,7 +62,7 @@ export const postLogin = (loginForm, history) => {
       })
       .catch((error) => {
         console.log("ERROR", error.response.data.message);
-        // setErrorMessage(error.response.data.message);
+        dispatch(setErrorMessage(error.response.data.message))
       });
   };
 };
@@ -86,7 +93,7 @@ export const postRegister = (registerForm, history) => {
       })
       .catch((error) => {
         console.log("ERROR", error.response.data.message);
-        // setErrorMessage(error.response.data.message);
+        dispatch(setErrorMessage(error.response.data.message))
       });
   };
 };

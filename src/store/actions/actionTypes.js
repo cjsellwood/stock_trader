@@ -9,6 +9,7 @@ export const LOAD_TRANSACTIONS = "LOAD_TRANSACTIONS"
 export const NEW_TRANSACTION = "NEW_TRANSACTION";
 
 export const SET_CASH = "SET_CASH";
+export const SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE"
 
 export const ADD_STOCK = "ADD_STOCK";
 export const ADD_NEW_ID = "ADD_NEW_ID";

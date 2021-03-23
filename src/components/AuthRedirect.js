@@ -2,7 +2,8 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
-const Auth = (props) => {
+const AuthRedirect = (props) => {
+  console.log("authredirect")
   let display;
   if (props.isAuth) {
     display = <React.Fragment>{props.children}</React.Fragment>;
@@ -21,4 +22,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Auth);
+export default connect(mapStateToProps)(AuthRedirect);

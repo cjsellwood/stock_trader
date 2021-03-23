@@ -5,6 +5,7 @@ export {
   postLogin,
   postRegister,
   setCash,
+  setErrorMessage,
 } from "./auth";
 export {
   loadStocks,

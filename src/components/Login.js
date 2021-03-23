@@ -18,6 +18,7 @@ const Login = (props) => {
       [e.target.name]: e.target.value,
     };
     setLoginForm(loginFormCopy);
+    props.onSetErrorMessage("");
   };
 
   let history = useHistory();
@@ -44,6 +45,7 @@ const Login = (props) => {
             name="username"
             value={loginForm.username}
             onChange={handleInput}
+            required
           />
         </div>
         <div>
@@ -54,6 +56,8 @@ const Login = (props) => {
             name="password"
             value={loginForm.password}
             onChange={handleInput}
+            required
+            minLength="8"
           />
         </div>
         <button type="submit" aria-label="submit">
@@ -68,6 +72,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onPostLogin: (loginForm, history) => {
       dispatch(actions.postLogin(loginForm, history));
+    },
+    onSetErrorMessage: (message) => {
+      dispatch(actions.setErrorMessage(message))
     }
   }
 }
