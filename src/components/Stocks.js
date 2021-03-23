@@ -33,7 +33,7 @@ const Stocks = (props) => {
     const totalPrice = price * quantity;
     console.log(totalPrice);
     if (totalPrice !== 0 && totalPrice < props.cash) {
-      props.onBuyStock(props.stocks[index], index);
+      props.onBuyStock(props.stocks[index], quantity, index);
       props.onUpdateQuantity(symbol, 0);
     } else {
       console.log("Can't Afford or quantity 0");

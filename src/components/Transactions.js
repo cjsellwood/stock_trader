@@ -25,7 +25,7 @@ const Transactions = (props) => {
         <td>{stock.companyName}</td>
         <td>{new Date(transaction.date).toLocaleDateString()}</td>
         <td>{transaction.quantity}</td>
-        <td>{transaction.price}</td>
+        <td>{transaction.price.toFixed(2)}</td>
       </tr>
     );
   });
@@ -41,7 +41,7 @@ const Transactions = (props) => {
             <th>Price</th>
           </tr>
         </thead>
-        <tbody>{displayTransactions}</tbody>
+        <tbody>{displayTransactions.reverse()}</tbody>
       </table>
     </div>
   );

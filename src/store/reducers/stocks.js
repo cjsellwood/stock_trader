@@ -31,11 +31,31 @@ const updateQuantity = (state, action) => {
 
   // Find index of stock being bought
   const index = stocksCopy.findIndex((stock) => stock.symbol === action.symbol);
-  stocksCopy[index].buyQuantity = Number(action.value);
 
-  // Do nothing if the value will become negative
-  if (stocksCopy[index].buyQuantity < 0) {
-    stocksCopy[index].buyQuantity = 0;
+  // Change sell quantity if action was to sell
+  if (action.sell === "sell") {
+    stocksCopy[index].sellQuantity = Number(action.value);
+
+    // Do nothing if the value will become negative
+    if (stocksCopy[index].sellQuantity < 0) {
+      stocksCopy[index].sellQuantity = 0;
+    }
+    // If value is greater than the max leave it
+    if (stocksCopy[index].sellQuantity > action.max) {
+      stocksCopy[index].sellQuantity = state.stocks[index].sellQuantity;
+    }
+  } else {
+    stocksCopy[index].buyQuantity = Number(action.value);
+
+    // Do nothing if the value will become negative
+    if (stocksCopy[index].buyQuantity < 0) {
+      stocksCopy[index].buyQuantity = 0;
+    }
+
+    // If value is greater than the max leave it
+    if (stocksCopy[index].sellQuantity > action.max) {
+      stocksCopy[index].sellQuantity = state.stocks[index].sellQuantity;
+    }
   }
 
   return {
@@ -66,6 +86,13 @@ const createOwned = (state, transactions) => {
     }
     owned[stock.symbol].quantity =
       owned[stock.symbol].quantity + transaction.quantity;
+  }
+
+  // Delete from owned if quantity is 0
+  for (let key in owned) {
+    if (owned[key].quantity === 0) {
+      delete owned[key];
+    }
   }
   return owned;
 };
@@ -109,7 +136,7 @@ const addNewId = (state, action) => {
   }
 
   if (!stocksCopy[stocksCopy.length - 1]._id) {
-    stocksCopy[stocksCopy.length - 1]._id = action._id
+    stocksCopy[stocksCopy.length - 1]._id = action._id;
   }
 
   return {

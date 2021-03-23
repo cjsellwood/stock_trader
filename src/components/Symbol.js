@@ -9,7 +9,6 @@ const Symbol = (props) => {
     if (!props.stocks.length) {
       props.onFetchStocks();
     } else {
-      console.log(props.stocks);
       // Reset buy quantity for all stocks
       for (let stock of props.stocks) {
         props.onUpdateQuantity(stock.symbol, 0);
@@ -34,6 +33,7 @@ const Symbol = (props) => {
     console.log(totalPrice);
     if (totalPrice !== 0 && totalPrice < props.cash) {
       props.onBuyStock(props.stocks[index], quantity, index);
+      props.onUpdateQuantity(symbol, 0);
     } else {
       console.log("Can't Afford or quantity 0");
     }

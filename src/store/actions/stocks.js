@@ -1,5 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-import * as actions from "./index"
+import * as actions from "./index";
 import axios from "axios";
 
 // Authorize user
@@ -30,11 +30,13 @@ export const fetchStocks = () => {
 };
 
 // Change quantity to buy based on user input
-export const updateQuantity = (symbol, value) => {
+export const updateQuantity = (symbol, value, sell, max) => {
   return {
     type: actionTypes.UPDATE_QUANTITY,
     symbol,
     value,
+    sell,
+    max,
   };
 };
 
@@ -42,15 +44,15 @@ export const newTransaction = (transaction) => {
   return {
     type: actionTypes.NEW_TRANSACTION,
     transaction,
-  }
-}
+  };
+};
 
 export const addNewId = (_id) => {
   return {
     type: actionTypes.ADD_NEW_ID,
     _id,
-  }
-}
+  };
+};
 
 // Buy a stock on the backend
 export const buyStock = (stock, quantity, index) => {
@@ -73,11 +75,11 @@ export const buyStock = (stock, quantity, index) => {
         dispatch(addNewId(response.data.newId));
 
         // Save updated cash value
-        dispatch(actions.setCash(response.data.cash))
-        localStorage.setItem("cash", response.data.cash)
+        dispatch(actions.setCash(response.data.cash));
+        localStorage.setItem("cash", response.data.cash);
 
         // Push to transactions state
-        dispatch(actions.newTransaction(response.data.transaction))
+        dispatch(actions.newTransaction(response.data.transaction));
       })
       .catch((err) => {
         console.dir(err);
@@ -89,9 +91,8 @@ export const loadTransactions = (transactions) => {
   return {
     type: actionTypes.LOAD_TRANSACTIONS,
     transactions,
-  }
-}
-
+  };
+};
 
 // Fetch stocks from database
 export const fetchTransactions = () => {
@@ -117,5 +118,5 @@ export const addStock = (stock) => {
   return {
     type: actionTypes.ADD_STOCK,
     stock,
-  }
-}
+  };
+};
