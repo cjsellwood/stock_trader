@@ -1,17 +1,16 @@
 import "./App.css";
 import React, { useEffect } from "react";
-import { Switch, Route, Link, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import AuthRedirect from "./components/AuthRedirect";
-import AuthShow from "./components/AuthShow";
-import AuthHide from "./components/AuthHide";
 import Home from "./components/Home";
 import Search from "./components/Search";
 import Stocks from "./components/Stocks";
 import Symbol from "./components/Symbol";
 import Transactions from "./components/Transactions";
 import Owned from "./components/Owned";
+import Nav from "./components/Nav"
 
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
@@ -40,63 +39,10 @@ const App = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  const logout = () => {
-    localStorage.removeItem("jwtToken");
-    localStorage.removeItem("jwtExpires");
-    localStorage.removeItem("cash");
-    history.push("/");
-    props.onDeauthorize();
-  };
-
   return (
     <div className="App">
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <AuthHide>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
-          </AuthHide>
-          <AuthHide>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          </AuthHide>
-          <AuthShow>
-            <li>
-              <Link to="/transactions">Transactions</Link>
-            </li>
-          </AuthShow>
-          <AuthShow>
-            <li>
-              <Link to="/stocks">Stocks</Link>
-            </li>
-          </AuthShow>
-          <AuthShow>
-            <li>
-              <Link to="/owned">Owned</Link>
-            </li>
-          </AuthShow>
-          <AuthShow>
-            <li>
-              <Link to="/search">Search</Link>
-            </li>
-          </AuthShow>
-          <AuthShow>
-            <li>
-              <button onClick={logout}>Log out</button>
-            </li>
-          </AuthShow>
-          <AuthShow>
-            <li>Cash: ${props.cash}</li>
-          </AuthShow>
-          <h2>{props.errorMessage}</h2>
-        </ul>
-      </nav>
-      <main>
+      <Nav/>
+      <main className={"main"}>
         <Switch>
           <Route path="/" exact>
             <Home />
@@ -134,7 +80,7 @@ const App = (props) => {
           </Route>
         </Switch>
       </main>
-      <footer>
+      <footer className={"footer"}>
         <a href="https://iexcloud.io">Data provided by IEX Cloud</a>
       </footer>
     </div>

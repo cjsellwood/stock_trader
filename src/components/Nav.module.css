@@ -1,0 +1,65 @@
+.Nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.top {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  background-color: rgb(42, 42, 42);
+  align-items: center;
+}
+
+.top li {
+  height: 50px;
+  flex: 1 1;
+  display: flex;
+  align-items: center;
+}
+
+.top a, .top button {
+  text-decoration: none;
+  color: rgb(111, 158, 255);
+  height: 100%;
+  text-transform: uppercase;
+  text-align: center;
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 50px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.top a:hover, .top button:hover {
+  background-color: rgba(126, 142, 214, 0.5);
+}
+
+.bottom {
+  width: 100%;
+  height: 50px;
+  background-color: rgb(70, 70, 70);
+  display: flex;
+  color: white;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.bottom li {
+  text-align: center;
+}
+
+.bottom h2 {
+  color: rgb(255, 100, 100);
+  font-weight: bold;
+  overflow: visible;
+  white-space: nowrap;
+  min-width: 350px;
+}
