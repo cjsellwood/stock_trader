@@ -33,9 +33,9 @@ const Login = (props) => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmission}>
+    <div className="w-600 h-center">
+      <h1 className="form-title">Login</h1>
+      <form className="form" onSubmit={handleSubmission}>
         <div>
           <label htmlFor="username">Username</label>
           <input
@@ -59,7 +59,7 @@ const Login = (props) => {
             minLength="8"
           />
         </div>
-        <button type="submit" aria-label="submit">
+        <button className="h-center" type="submit" aria-label="submit">
           Submit
         </button>
       </form>

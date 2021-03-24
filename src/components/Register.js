@@ -19,7 +19,7 @@ const Register = (props) => {
       [e.target.name]: e.target.value,
     };
     setRegisterForm(registerFormCopy);
-    props.onSetErrorMessage("")
+    props.onSetErrorMessage("");
   };
 
   // Submit register form handler
@@ -31,9 +31,9 @@ const Register = (props) => {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmission}>
+    <div className="w-600 h-center">
+      <h1 className="form-title">Register</h1>
+      <form className="form" onSubmit={handleSubmission}>
         <div>
           <label htmlFor="username">Username</label>
           <input
@@ -69,7 +69,7 @@ const Register = (props) => {
             minLength="8"
           />
         </div>
-        <button type="submit" aria-label="submit">
+        <button className="h-center" type="submit" aria-label="submit">
           Submit
         </button>
       </form>
@@ -83,8 +83,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.postRegister(registerForm, history));
     },
     onSetErrorMessage: (message) => {
-      dispatch(actions.setErrorMessage(message))
-    }
+      dispatch(actions.setErrorMessage(message));
+    },
   };
 };
 

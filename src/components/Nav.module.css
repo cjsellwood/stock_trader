@@ -37,7 +37,7 @@
 }
 
 .top a:hover, .top button:hover {
-  background-color: rgba(126, 142, 214, 0.5);
+  color: white;
 }
 
 .bottom {
