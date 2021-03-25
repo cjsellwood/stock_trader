@@ -51,10 +51,11 @@ export const newTransaction = (transaction) => {
   };
 };
 
-export const addNewId = (_id) => {
+export const addNewId = (_id, symbol) => {
   return {
     type: actionTypes.ADD_NEW_ID,
     _id,
+    symbol,
   };
 };
 
@@ -84,7 +85,7 @@ export const buyStock = (stock, quantity, index) => {
       )
       .then((response) => {
         // Add id if result was from stock api search
-        dispatch(addNewId(response.data.newId));
+        dispatch(addNewId(response.data.newId, stock.symbol));
 
         // Save updated cash value
         dispatch(actions.setCash(response.data.cash));
@@ -94,6 +95,7 @@ export const buyStock = (stock, quantity, index) => {
         dispatch(actions.newTransaction(response.data.transaction));
       })
       .catch((error) => {
+        console.dir(error);
         if (error.response) {
           dispatch(actions.setErrorMessage(error.response.data.message));
         } else {

@@ -135,8 +135,12 @@ const addNewId = (state, action) => {
     });
   }
 
-  if (!stocksCopy[stocksCopy.length - 1]._id) {
-    stocksCopy[stocksCopy.length - 1]._id = action._id;
+  // Find index of stock to add id to
+  const index = stocksCopy.findIndex((stock) => stock.symbol === action.symbol);
+
+  // Set id to id from database
+  if (!stocksCopy[index]._id) {
+    stocksCopy[index]._id = action._id;
   }
 
   return {

@@ -32,10 +32,12 @@ const Symbol = (props) => {
     const quantity = props.stocks[index].buyQuantity;
     const totalPrice = price * quantity;
 
-    if (totalPrice !== "" && totalPrice < props.cash) {
+    console.log(props.stocks[index])
+
+    if (quantity !== "" && totalPrice < props.cash) {
       props.onBuyStock(props.stocks[index], quantity, index);
       props.onUpdateQuantity(symbol, 0);
-      props.onSetErrorMessage(`Bought ${quantity} ${symbol}`, "success")
+      props.onSetErrorMessage(`Bought ${quantity} ${symbol}`, "success");
     } else {
       if (totalPrice > props.cash) {
         props.onSetErrorMessage("Cannot Afford");
@@ -50,6 +52,8 @@ const Symbol = (props) => {
   const stock = props.stocks.filter((el) => {
     return el.symbol === symbol.toUpperCase();
   });
+
+  console.log("display stock", stock)
 
   let displayStock = [];
   if (stock.length) {
@@ -67,7 +71,6 @@ const Symbol = (props) => {
                     Date.now() -
                       (el.prices.length - 1 - index) * 1000 * 60 * 60 * 24
                   );
-
                   return <th key={index}>{date.toLocaleDateString()}</th>;
                 })}
               </tr>
@@ -113,11 +116,13 @@ const Symbol = (props) => {
                   display: false,
                 },
                 scales: {
-                  xAxes: [{
-                    gridLines: {
-                      display: false,
+                  xAxes: [
+                    {
+                      gridLines: {
+                        display: false,
+                      },
                     },
-                  }],
+                  ],
                 },
               }}
             />
