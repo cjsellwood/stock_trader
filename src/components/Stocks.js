@@ -52,9 +52,23 @@ const Stocks = (props) => {
         <td>
           <Link to={`/stocks/${stock.symbol}`}>{stock.symbol}</Link>
         </td>
-        <td>{stock.companyName}</td>
-        <td>{stock.prices.length > 1 ? change.toFixed(2) + "%" : "-"}</td>
-        <td>{stock.prices[stock.prices.length - 1].toFixed(2)}</td>
+        <td>
+          <Link to={`/stocks/${stock.symbol}`}>{stock.companyName}</Link>
+        </td>
+        <td
+          className={
+            change > 0
+              ? "r-align positive"
+              : change < 0
+              ? "r-align negative"
+              : "r-align"
+          }
+        >
+          {stock.prices.length > 1 ? change.toFixed(2) + "%" : "-"}
+        </td>
+        <td className="r-align">
+          {stock.prices[stock.prices.length - 1].toFixed(2)}
+        </td>
         <td>
           <form onSubmit={buyStock} data-symbol={stock.symbol}>
             <button
@@ -86,7 +100,6 @@ const Stocks = (props) => {
             >
               +
             </button>
-            {/* <span>{stock.prices[stock.prices.length - 1] * stock.buyQuantity}</span> */}
             <button type="submit">Buy</button>
           </form>
         </td>
@@ -96,7 +109,8 @@ const Stocks = (props) => {
 
   return (
     <div>
-      <table>
+      <h1 className="page-title">Stocks</h1>
+      <table className="table">
         <thead>
           <tr>
             <th>Symbol</th>

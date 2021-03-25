@@ -156,9 +156,9 @@ const Search = (props) => {
   }
 
   return (
-    <div>
-      <h1>Search by Symbol</h1>
-      <form onSubmit={handleSubmission}>
+    <div className="h-center w-600">
+      <h1 className="page-title">Search</h1>
+      <form className="form" onSubmit={handleSubmission}>
         <div>
           <label htmlFor="search">Symbol</label>
           <input
@@ -171,7 +171,7 @@ const Search = (props) => {
             maxLength="6"
           />
         </div>
-        <button type="submit">Search</button>
+        <button className="h-center" type="submit">Search</button>
       </form>
       {displayStock}
     </div>

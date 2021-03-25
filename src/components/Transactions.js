@@ -22,16 +22,20 @@ const Transactions = (props) => {
         <td>
           <Link to={`/stocks/${stock.symbol}`}>{stock.symbol}</Link>
         </td>
-        <td>{stock.companyName}</td>
+        <td>
+          <Link to={`/stocks/${stock.symbol}`}>{stock.companyName}</Link>
+        </td>
         <td>{new Date(transaction.date).toLocaleDateString()}</td>
-        <td>{transaction.quantity}</td>
-        <td>{transaction.price.toFixed(2)}</td>
+        <td className="r-align">{transaction.quantity}</td>
+        <td className="r-align">{transaction.price.toFixed(2)}</td>
+        <td className="r-align">{(Math.abs(transaction.quantity * transaction.price)).toFixed(2)}</td>
       </tr>
     );
   });
   return (
     <div>
-      <table>
+      <h1 className="page-title">Your Transactions</h1>
+      <table className="table">
         <thead>
           <tr>
             <th>Symbol</th>
@@ -39,6 +43,7 @@ const Transactions = (props) => {
             <th>Date</th>
             <th>Quantity</th>
             <th>Price</th>
+            <th>Total</th>
           </tr>
         </thead>
         <tbody>{displayTransactions.reverse()}</tbody>

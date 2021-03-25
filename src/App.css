@@ -28,17 +28,12 @@
   width: 600px;
 }
 
-.form-title {
-  font-size: 1.8rem;
-  text-align: center;
-  margin: 10px;
-}
-
 .form {
   width: 100%;
 }
 
-.form input, .form label {
+.form input,
+.form label {
   display: block;
   width: 100%;
   margin: 8px 0;
@@ -67,7 +62,7 @@
   color: white;
   font-weight: bold;
   padding: 12px 32px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -78,4 +73,82 @@
 
 .form button:hover {
   background-color: rgb(110, 110, 255);
+}
+
+.table {
+  margin: 0 auto;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.table th {
+  padding: 12px 16px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.1rem;
+  background-color: rgb(42, 42, 42);
+  background-color: rgb(51, 111, 233);
+  color: rgb(111, 158, 255);
+  color: white;
+}
+.table td {
+  padding: 10px 12px;
+  color: rgb(32, 32, 32);
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.table tr {
+  /* border-bottom: 1px solid rgb(233, 233, 233); */
+  background-color: rgb(255, 255, 255);
+}
+
+.table tr:nth-child(2n + 1) {
+  background-color: rgba(228, 237, 255, 0.739);
+}
+
+.table a {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  padding: 8px;
+}
+
+.table a:hover {
+  color: rgb(0, 85, 255);
+}
+
+.r-align {
+  text-align: right;
+}
+
+td.positive {
+  color: rgb(7, 130, 7);
+}
+
+td.negative {
+  color: red;
+}
+
+.page-title {
+  margin: 20px auto;
+  margin-top: 0;
+  font-size: 2.3rem;
+  font-weight: bold;
+  display: block;
+  text-align: center;
+}
+
+.table tfoot {
+  /* border-top: 8px solid rgb(228, 228, 228); */
+}
+
+.table tfoot tr {
+  background-color: rgb(246, 246, 246);
+  font-weight: bold;
+}
+
+.table tfoot tr:first-child {
+  background-color: rgb(246, 246, 246);
 }

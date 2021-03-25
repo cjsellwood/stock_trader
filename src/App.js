@@ -14,6 +14,7 @@ import Nav from "./components/Nav"
 
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = (props) => {
   let history = useHistory();
@@ -41,6 +42,7 @@ const App = (props) => {
 
   return (
     <div className="App">
+      <ScrollToTop/>
       <Nav/>
       <main className={"main"}>
         <Switch>

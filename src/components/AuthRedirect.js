@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 const AuthRedirect = (props) => {
-  console.log("authredirect")
   let display;
   if (props.isAuth) {
     display = <React.Fragment>{props.children}</React.Fragment>;

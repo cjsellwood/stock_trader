@@ -73,11 +73,25 @@ const Owned = (props) => {
         <td>
           <Link to={`/stocks/${key}`}>{key}</Link>
         </td>
-        <td>{stock.companyName}</td>
-        <td>{stock.prices.length > 1 ? change.toFixed(2) + "%" : "-"}</td>
-        <td>{props.owned[key].quantity}</td>
-        <td>{stock.prices[stock.prices.length - 1].toFixed(2)}</td>
         <td>
+          <Link to={`/stocks/${key}`}>{stock.companyName}</Link>
+        </td>
+        <td
+          className={
+            change > 0
+              ? "r-align positive"
+              : change < 0
+              ? "r-align negative"
+              : "r-align"
+          }
+        >
+          {stock.prices.length > 1 ? change.toFixed(2) + "%" : "-"}
+        </td>
+        <td className="r-align">{props.owned[key].quantity}</td>
+        <td className="r-align">
+          {stock.prices[stock.prices.length - 1].toFixed(2)}
+        </td>
+        <td className="r-align">
           {(
             stock.prices[stock.prices.length - 1] * props.owned[key].quantity
           ).toFixed(2)}
@@ -141,11 +155,7 @@ const Owned = (props) => {
               value={stock.sellQuantity}
               min="0"
               onChange={(e) =>
-                props.onUpdateQuantity(
-                  stock.symbol,
-                  e.target.value,
-                  "sell",
-                )
+                props.onUpdateQuantity(stock.symbol, e.target.value, "sell")
               }
               max={props.owned[key].quantity}
             />
@@ -163,7 +173,6 @@ const Owned = (props) => {
             >
               +
             </button>
-            {/* <span>{stock.prices[stock.prices.length - 1] * stock.buyQuantity}</span> */}
             <button type="submit">Sell</button>
           </form>
         </td>
@@ -177,9 +186,9 @@ const Owned = (props) => {
 
   return (
     <div>
-      <h1>Owned</h1>
+      <h1 className="page-title">Owned</h1>
       <div>
-        <table>
+        <table className="table">
           <thead>
             <tr>
               <th>Symbol</th>
@@ -191,7 +200,6 @@ const Owned = (props) => {
               <th>Buy</th>
               <th>Sell</th>
             </tr>
-            <tr></tr>
           </thead>
           <tbody>{displayOwned}</tbody>
           <tfoot>
@@ -201,15 +209,21 @@ const Owned = (props) => {
               <td></td>
               <td></td>
               <td>Cash: </td>
-              <td>{props.cash.toFixed(2)}</td>
+              <td className="r-align">{props.cash.toFixed(2)}</td>
+              <td></td>
+              <td></td>
             </tr>
             <tr>
               <td></td>
               <td></td>
               <td></td>
               <td></td>
-              <td>Total: </td>
-              <td>{(totalValue + props.cash).toFixed(2)}</td>
+              <td>Total:</td>
+              <td className="r-align">
+                {(totalValue + props.cash).toFixed(2)}
+              </td>
+              <td></td>
+              <td></td>
             </tr>
           </tfoot>
         </table>
