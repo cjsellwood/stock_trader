@@ -63,3 +63,7 @@
   white-space: nowrap;
   min-width: 350px;
 }
+
+.bottom h2.success {
+  color: green;
+}

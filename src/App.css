@@ -236,3 +236,7 @@ td.negative {
 .company-name {
   font-size: 1.23rem;
 }
+
+li > h2.success {
+  color: rgb(5, 187, 5);
+}

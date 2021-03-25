@@ -35,6 +35,7 @@ const Stocks = (props) => {
     if (totalPrice !== 0 && totalPrice < props.cash) {
       props.onBuyStock(props.stocks[index], quantity, index);
       props.onUpdateQuantity(symbol, 0);
+      props.onSetErrorMessage(`Bought ${quantity} ${symbol}`, "success")
     } else {
       if (totalPrice > props.cash) {
         props.onSetErrorMessage("Cannot Afford");
@@ -157,8 +158,8 @@ const mapDispatchToProps = (dispatch) => {
     onBuyStock: (stock, quantity, index) => {
       dispatch(actions.buyStock(stock, quantity, index));
     },
-    onSetErrorMessage: (message) => {
-      dispatch(actions.setErrorMessage(message));
+    onSetErrorMessage: (message, success) => {
+      dispatch(actions.setErrorMessage(message, success));
     },
   };
 };

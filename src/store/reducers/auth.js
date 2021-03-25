@@ -24,22 +24,22 @@ const loadingFinish = (state, action) => {
   return {
     ...state,
     isLoading: false,
-  }
-}
+  };
+};
 
 const setCash = (state, action) => {
   return {
     ...state,
-    cash: Number(action.cash)
-  }
-}
+    cash: Number(action.cash),
+  };
+};
 
 const setErrorMessage = (state, action) => {
   return {
     ...state,
-    errorMessage: action.message
-  }
-}
+    errorMessage: { message: action.message, success: action.success },
+  };
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -48,11 +48,11 @@ const reducer = (state = initialState, action) => {
     case actionTypes.DEAUTHORIZE:
       return deauthorize(state, action);
     case actionTypes.LOADING_FINISH:
-      return loadingFinish(state,action);
+      return loadingFinish(state, action);
     case actionTypes.SET_CASH:
-      return setCash(state, action)
+      return setCash(state, action);
     case actionTypes.SET_ERROR_MESSAGE:
-      return setErrorMessage(state, action)
+      return setErrorMessage(state, action);
     default:
       return state;
   }

@@ -58,15 +58,17 @@ const Nav = (props) => {
           </li>
         </AuthShow>
       </ul>
-        <ul className={classes.bottom}>
-          <AuthShow>
-            <li>Cash: ${props.cash}</li>
-          </AuthShow>
-          <li>
-            <h2>{props.errorMessage}</h2>
-          </li>
-          <li></li>
-        </ul>
+      <ul className={classes.bottom}>
+        <AuthShow>
+          <li>Cash: ${props.cash}</li>
+        </AuthShow>
+        <li>
+          <h2 className={props.errorMessage.success ? "success" : ""}>
+            {props.errorMessage.message}
+          </h2>
+        </li>
+        <li></li>
+      </ul>
     </nav>
   );
 };

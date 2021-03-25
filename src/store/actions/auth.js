@@ -29,10 +29,11 @@ export const setCash = (cash) => {
   };
 };
 
-export const setErrorMessage = (message) => {
+export const setErrorMessage = (message, success) => {
   return {
     type: actionTypes.SET_ERROR_MESSAGE,
     message,
+    success,
   }
 }
 

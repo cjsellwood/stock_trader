@@ -35,6 +35,7 @@ const Portfolio = (props) => {
     if (quantity !== "" && totalPrice < props.cash) {
       props.onBuyStock(props.stocks[index], quantity, index);
       props.onUpdateQuantity(symbol, 0);
+      props.onSetErrorMessage(`Bought ${quantity} ${symbol}`, "success")
     } else {
       if (totalPrice > props.cash) {
         props.onSetErrorMessage("Cannot Afford");
@@ -57,6 +58,7 @@ const Portfolio = (props) => {
     if (quantity !== "" && quantity <= ownedQuantity) {
       props.onBuyStock(props.stocks[index], -quantity, index);
       props.onUpdateQuantity(symbol, 0, "sell");
+      props.onSetErrorMessage(`Sold ${quantity} ${symbol}`, "success")
     } else {
       if (quantity === "") {
         props.onSetErrorMessage("Please Enter a Number");
@@ -282,8 +284,8 @@ const mapDispatchToProps = (dispatch) => {
     onBuyStock: (stock, quantity, index) => {
       dispatch(actions.buyStock(stock, quantity, index));
     },
-    onSetErrorMessage: (message) => {
-      dispatch(actions.setErrorMessage(message));
+    onSetErrorMessage: (message, success) => {
+      dispatch(actions.setErrorMessage(message, success));
     },
   };
 };
