@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Redirect } from "react-router-dom";
 import * as actions from "../store/actions/index";
+import { Line } from "react-chartjs-2";
 
 const Symbol = (props) => {
   // If hasn't been run before
@@ -30,12 +31,16 @@ const Symbol = (props) => {
       props.stocks[index].prices[props.stocks[index].prices.length - 1];
     const quantity = props.stocks[index].buyQuantity;
     const totalPrice = price * quantity;
-    console.log(totalPrice);
-    if (totalPrice !== 0 && totalPrice < props.cash) {
+
+    if (totalPrice !== "" && totalPrice < props.cash) {
       props.onBuyStock(props.stocks[index], quantity, index);
       props.onUpdateQuantity(symbol, 0);
     } else {
-      console.log("Can't Afford or quantity 0");
+      if (totalPrice > props.cash) {
+        props.onSetErrorMessage("Cannot Afford");
+      } else if (quantity === "") {
+        props.onSetErrorMessage("Please Enter a Number");
+      }
     }
   };
 
@@ -49,57 +54,132 @@ const Symbol = (props) => {
   if (stock.length) {
     displayStock = stock.map((el) => {
       return (
-        <div key={el.symbol}>
-          <h1>{el.symbol}</h1>
-          <p>{el.companyName}</p>
-          <p>Price history</p>
-          {el.prices.map((price, index) => {
-            return <span key={index}>{price}, </span>;
-          })}
-          <form onSubmit={buyStock} data-symbol={el.symbol}>
-            <button
-              type="button"
-              aria-label="subtract 1"
-              onClick={() =>
-                props.onUpdateQuantity(el.symbol, el.buyQuantity - 1)
-              }
-            >
-              -
-            </button>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              aria-label="quantity"
-              value={el.buyQuantity}
-              min="0"
-              onChange={(e) =>
-                props.onUpdateQuantity(el.symbol, e.target.value)
-              }
+        <React.Fragment key={el.symbol}>
+          <h1 className="page-title">{el.symbol}</h1>
+          <p className="company-name">Company: {el.companyName}</p>
+          <h2 className="price-history h-center">Price history</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                {el.prices.map((price, index) => {
+                  const date = new Date(
+                    Date.now() -
+                      (el.prices.length - 1 - index) * 1000 * 60 * 60 * 24
+                  );
+
+                  return <th key={index}>{date.toLocaleDateString()}</th>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {el.prices.map((price, index) => {
+                  return (
+                    <td className="r-align" key={index}>
+                      {price}
+                    </td>
+                  );
+                })}
+              </tr>
+            </tbody>
+          </table>
+          {el.prices.length > 1 ? (
+            <Line
+              data={{
+                type: "Line",
+                labels: el.prices.map((price, index) => {
+                  const date = new Date(
+                    Date.now() -
+                      (el.prices.length - 1 - index) * 1000 * 60 * 60 * 24
+                  );
+
+                  return date.toLocaleDateString();
+                }),
+                datasets: [
+                  {
+                    fill: false,
+                    pointBackgroundColor: "rgb(90, 90, 255)",
+                    borderColor: "rgb(90, 90, 255)",
+                    lineTension: 0,
+                    data: el.prices.map((price, index) => {
+                      return price;
+                    }),
+                  },
+                ],
+              }}
+              options={{
+                legend: {
+                  display: false,
+                },
+                scales: {
+                  xAxes: [{
+                    gridLines: {
+                      display: false,
+                    },
+                  }],
+                },
+              }}
             />
-            <button
-              type="button"
-              aria-label="add 1"
-              onClick={() =>
-                props.onUpdateQuantity(el.symbol, el.buyQuantity + 1)
-              }
-            >
-              +
-            </button>
-            {/* <span>{stock.prices[stock.prices.length - 1] * stock.buyQuantity}</span> */}
+          ) : null}
+
+          <form
+            className="transaction-form"
+            onSubmit={buyStock}
+            data-symbol={el.symbol}
+          >
+            <div>
+              <button
+                type="button"
+                aria-label="subtract 1"
+                onClick={() => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(el.symbol, el.buyQuantity - 1);
+                }}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                aria-label="quantity"
+                value={el.buyQuantity}
+                min="0"
+                onChange={(e) => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(el.symbol, e.target.value);
+                }}
+              />
+              <button
+                type="button"
+                aria-label="add 1"
+                onClick={() => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(el.symbol, el.buyQuantity + 1);
+                }}
+              >
+                +
+              </button>
+            </div>
             <button type="submit">Buy</button>
           </form>
-        </div>
+        </React.Fragment>
       );
     });
   }
 
-  return <div>{displayStock}</div>;
+  // Redirect if stock doesn't exist in state
+  if (!displayStock.length && props.stocks.length) {
+    displayStock = <Redirect to="/stocks"></Redirect>;
+  }
+
+  return <div className="w-600 h-center flex-column">{displayStock}</div>;
 };
 
 const mapStateToProps = (state) => {
   return {
     stocks: state.stocks.stocks,
+    cash: state.auth.cash,
   };
 };
 
@@ -113,6 +193,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onBuyStock: (stock, quantity, index) => {
       dispatch(actions.buyStock(stock, quantity, index));
+    },
+    onSetErrorMessage: (message) => {
+      dispatch(actions.setErrorMessage(message));
     },
   };
 };
