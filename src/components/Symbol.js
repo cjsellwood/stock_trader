@@ -12,9 +12,12 @@ const Symbol = (props) => {
     } else {
       // Reset buy quantity for all stocks
       for (let stock of props.stocks) {
-        props.onUpdateQuantity(stock.symbol, 0);
+        props.onUpdateQuantity(stock.symbol, "");
       }
     }
+    // Reset error message on page load
+    props.onSetErrorMessage("")
+
     // eslint-disable-next-line
   }, []);
 
@@ -32,11 +35,9 @@ const Symbol = (props) => {
     const quantity = props.stocks[index].buyQuantity;
     const totalPrice = price * quantity;
 
-    console.log(props.stocks[index])
-
     if (quantity !== "" && totalPrice < props.cash) {
       props.onBuyStock(props.stocks[index], quantity, index);
-      props.onUpdateQuantity(symbol, 0);
+      props.onUpdateQuantity(symbol, "");
       props.onSetErrorMessage(`Bought ${quantity} ${symbol}`, "success");
     } else {
       if (totalPrice > props.cash) {
@@ -53,7 +54,8 @@ const Symbol = (props) => {
     return el.symbol === symbol.toUpperCase();
   });
 
-  console.log("display stock", stock)
+  // console.log(stock)
+  console.log("symbol")
 
   let displayStock = [];
   if (stock.length) {

@@ -45,7 +45,6 @@ export const postLogin = (loginForm, history) => {
         ...loginForm,
       })
       .then((response) => {
-        console.dir(response);
         // Store jwt token and when it expires in local storage
         localStorage.setItem("jwtToken", response.data.token);
         const expires = Date.now() + Number(response.data.expiresIn);
@@ -60,6 +59,8 @@ export const postLogin = (loginForm, history) => {
         // Save users cash
         localStorage.setItem("cash", response.data.cash);
         dispatch(setCash(response.data.cash));
+
+        dispatch(setErrorMessage("Logged In", "success"))
       })
       .catch((error) => {
         if (error.response) {
@@ -79,7 +80,6 @@ export const postRegister = (registerForm, history) => {
         ...registerForm,
       })
       .then((response) => {
-        console.dir(response);
         // Store jwt token and when it expires in local storage
         localStorage.setItem("jwtToken", response.data.token);
         const expires = Date.now() + Number(response.data.expiresIn);
@@ -94,6 +94,8 @@ export const postRegister = (registerForm, history) => {
         // Save users cash
         localStorage.setItem("cash", response.data.cash);
         dispatch(setCash(response.data.cash));
+
+        dispatch(setErrorMessage("Registered", "success"))
       })
       .catch((error) => {
         if (error.response) {

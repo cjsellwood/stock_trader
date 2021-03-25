@@ -7,6 +7,7 @@ import * as actions from "../store/actions/index";
 import classes from "./Nav.module.css";
 
 const Nav = (props) => {
+  // Logout user by removing credentials local storage
   let history = useHistory();
   const logout = () => {
     localStorage.removeItem("jwtToken");
@@ -14,6 +15,7 @@ const Nav = (props) => {
     localStorage.removeItem("cash");
     history.push("/");
     props.onDeauthorize();
+    props.onSetErrorMessage("Logged Out", "success");
   };
 
   return (
@@ -59,9 +61,11 @@ const Nav = (props) => {
         </AuthShow>
       </ul>
       <ul className={classes.bottom}>
-        <AuthShow>
-          <li>Cash: ${props.cash}</li>
-        </AuthShow>
+        <li>
+          <AuthShow>
+            <span>Cash: ${props.cash}</span>
+          </AuthShow>
+        </li>
         <li>
           <h2 className={props.errorMessage.success ? "success" : ""}>
             {props.errorMessage.message}
@@ -84,6 +88,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onDeauthorize: () => {
       dispatch(actions.deauthorize());
+    },
+    onSetErrorMessage: (message, success) => {
+      dispatch(actions.setErrorMessage(message, success));
     },
   };
 };

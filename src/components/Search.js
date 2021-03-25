@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/index";
 
@@ -9,12 +9,10 @@ const Search = (props) => {
     // If hasn't been run before fetch stocks from database
     if (!props.stocks.length) {
       props.onFetchStocks();
-    } else {
-      // Reset buy quantity for all stocks
-      for (let stock of props.stocks) {
-        props.onUpdateQuantity(stock.symbol, 0);
-      }
     }
+
+    // Reset error message on page load
+    props.onSetErrorMessage("");
 
     // eslint-disable-next-line
   }, []);
@@ -24,7 +22,7 @@ const Search = (props) => {
   // Update search term with users input
   const handleInput = (e) => {
     setSearch(e.target.value);
-    props.onSetErrorMessage("")
+    props.onSetErrorMessage("");
   };
 
   let history = useHistory();
@@ -40,19 +38,23 @@ const Search = (props) => {
 
     // If found in state display results from it
     if (searchIndex !== -1) {
-      props.onSetErrorMessage("")
+      props.onSetErrorMessage("");
 
       // Redirect to symbol page
-      history.push(`/stocks/${props.stocks[searchIndex].symbol}`)
+      history.push(`/stocks/${props.stocks[searchIndex].symbol}`);
     } else {
       // If not found in state check database and stock api
       const jwtToken = localStorage.getItem("jwtToken");
       axios
-        .post(`http://localhost:3000/search`, {symbol: search}, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        })
+        .post(
+          `http://localhost:3000/search`,
+          { symbol: search },
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        )
         .then((response) => {
           const result = response.data;
 
@@ -65,19 +67,18 @@ const Search = (props) => {
           });
 
           // Redirect to symbol page
-          history.push(`/stocks/${result.symbol}`)
+          history.push(`/stocks/${result.symbol}`);
         })
         .catch((error) => {
           if (error.response) {
             props.onSetErrorMessage(error.response.data.message);
           } else {
-            props.onSetErrorMessage("Something went wrong")
+            props.onSetErrorMessage("Something went wrong");
           }
         });
     }
   };
 
-  
   return (
     <div className="h-center w-600">
       <h1 className="page-title">Search</h1>
@@ -94,7 +95,9 @@ const Search = (props) => {
             maxLength="6"
           />
         </div>
-        <button className="h-center" type="submit">Search</button>
+        <button className="h-center" type="submit">
+          Search
+        </button>
       </form>
     </div>
   );

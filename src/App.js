@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useEffect } from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import AuthRedirect from "./components/AuthRedirect";
@@ -17,13 +17,6 @@ import * as actions from "./store/actions/index";
 import ScrollToTop from "./components/ScrollToTop";
 
 const App = (props) => {
-  let history = useHistory();
-
-  // Reset error message if changing pages
-  history.listen((location) => {
-    props.onSetErrorMessage("")
-  })
-
   // Check if user has a valid token in local storage
   const isLoggedIn = () => {
     const expiration = localStorage.getItem("jwtExpires");

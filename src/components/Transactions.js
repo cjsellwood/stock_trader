@@ -11,7 +11,12 @@ const Transactions = (props) => {
     if (!props.isTransactionsLoaded) {
       props.onFetchTransactions();
     }
-  });
+
+    // Reset error message on page load
+    props.onSetErrorMessage("");
+
+    // eslint-disable-next-line
+  }, []);
 
   const displayTransactions = props.transactions.map((transaction) => {
     const stock = props.stocks.filter((el) => {
@@ -28,7 +33,9 @@ const Transactions = (props) => {
         <td>{new Date(transaction.date).toLocaleDateString()}</td>
         <td className="r-align">{transaction.quantity}</td>
         <td className="r-align">{transaction.price.toFixed(2)}</td>
-        <td className="r-align">{(Math.abs(transaction.quantity * transaction.price)).toFixed(2)}</td>
+        <td className="r-align">
+          {Math.abs(transaction.quantity * transaction.price).toFixed(2)}
+        </td>
       </tr>
     );
   });
@@ -67,6 +74,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onFetchTransactions: () => {
       dispatch(actions.fetchTransactions());
+    },
+    onSetErrorMessage: (message) => {
+      dispatch(actions.setErrorMessage(message));
     },
   };
 };

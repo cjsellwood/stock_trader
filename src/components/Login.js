@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/index"
 import { useHistory } from "react-router-dom";
 
 const Login = (props) => {
+
+  useEffect(() => {
+    // Reset error message on page load
+    props.onSetErrorMessage("");
+
+    // eslint-disable-next-line
+  }, []);
+
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
   });
-
-  // const [errorMessage, setErrorMessage] = useState("");
 
   // Change register details when inputs change
   const handleInput = (e) => {

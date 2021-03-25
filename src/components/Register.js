@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/index";
 
 const Register = (props) => {
+  useEffect(() => {
+    // Reset error message on page load
+    props.onSetErrorMessage("");
+
+    // eslint-disable-next-line
+  }, []);
+
   const [registerForm, setRegisterForm] = useState({
     username: "",
     password: "",

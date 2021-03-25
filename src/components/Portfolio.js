@@ -17,6 +17,8 @@ const Portfolio = (props) => {
     if (!props.isTransactionsLoaded) {
       props.onFetchTransactions();
     }
+
+    props.onSetErrorMessage("")
     // eslint-disable-next-line
   }, []);
 
@@ -35,7 +37,7 @@ const Portfolio = (props) => {
     if (quantity !== "" && totalPrice < props.cash) {
       props.onBuyStock(props.stocks[index], quantity, index);
       props.onUpdateQuantity(symbol, 0);
-      props.onSetErrorMessage(`Bought ${quantity} ${symbol}`, "success")
+      props.onSetErrorMessage(`Bought ${quantity} ${symbol}`, "success");
     } else {
       if (totalPrice > props.cash) {
         props.onSetErrorMessage("Cannot Afford");
@@ -58,7 +60,7 @@ const Portfolio = (props) => {
     if (quantity !== "" && quantity <= ownedQuantity) {
       props.onBuyStock(props.stocks[index], -quantity, index);
       props.onUpdateQuantity(symbol, 0, "sell");
-      props.onSetErrorMessage(`Sold ${quantity} ${symbol}`, "success")
+      props.onSetErrorMessage(`Sold ${quantity} ${symbol}`, "success");
     } else {
       if (quantity === "") {
         props.onSetErrorMessage("Please Enter a Number");

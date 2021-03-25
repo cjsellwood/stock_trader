@@ -15,6 +15,9 @@ const Stocks = (props) => {
       }
     }
 
+    // Reset error message on page load
+    props.onSetErrorMessage("");
+
     // eslint-disable-next-line
   }, []);
 
@@ -35,7 +38,7 @@ const Stocks = (props) => {
     if (totalPrice !== 0 && totalPrice < props.cash) {
       props.onBuyStock(props.stocks[index], quantity, index);
       props.onUpdateQuantity(symbol, 0);
-      props.onSetErrorMessage(`Bought ${quantity} ${symbol}`, "success")
+      props.onSetErrorMessage(`Bought ${quantity} ${symbol}`, "success");
     } else {
       if (totalPrice > props.cash) {
         props.onSetErrorMessage("Cannot Afford");
