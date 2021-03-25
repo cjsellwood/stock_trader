@@ -44,7 +44,7 @@ const Nav = (props) => {
         </AuthShow>
         <AuthShow>
           <li>
-            <Link to="/owned">Owned</Link>
+            <Link to="/portfolio">Portfolio</Link>
           </li>
         </AuthShow>
         <AuthShow>

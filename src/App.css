@@ -140,10 +140,6 @@ td.negative {
   text-align: center;
 }
 
-.table tfoot {
-  /* border-top: 8px solid rgb(228, 228, 228); */
-}
-
 .table tfoot tr {
   background-color: rgb(246, 246, 246);
   font-weight: bold;
@@ -151,4 +147,73 @@ td.negative {
 
 .table tfoot tr:first-child {
   background-color: rgb(246, 246, 246);
+}
+
+.transaction-form {
+  display: flex;
+  align-items: center;
+}
+
+.transaction-form > div {
+  border: 1px solid rgb(184, 184, 184);
+  background-color: white;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  margin-right: 5px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.transaction-form input {
+  padding: 6px;
+  text-align: center;
+  font-size: 1rem;
+  border: none;
+  width: 4rem;
+  outline: none;
+  background-color: transparent;
+}
+
+.transaction-form ::-webkit-inner-spin-button {
+  display: none;
+}
+
+.transaction-form button {
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.transaction-form button:first-child {
+  background-color: transparent;
+  color: rgb(255, 0, 0);
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.transaction-form button:nth-child(3) {
+  background-color: transparent;
+  color: rgb(8, 151, 3);
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.transaction-form > button {
+  background-color: rgb(90, 90, 255);
+  height: 30px;
+  width: 60px;
+  color: white;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }

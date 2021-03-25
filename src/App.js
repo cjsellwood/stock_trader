@@ -9,7 +9,7 @@ import Search from "./components/Search";
 import Stocks from "./components/Stocks";
 import Symbol from "./components/Symbol";
 import Transactions from "./components/Transactions";
-import Owned from "./components/Owned";
+import Portfolio from "./components/Portfolio";
 import Nav from "./components/Nav"
 
 import { connect } from "react-redux";
@@ -70,9 +70,9 @@ const App = (props) => {
               <Symbol />
             </AuthRedirect>
           </Route>
-          <Route path="/owned">
+          <Route path="/portfolio">
             <AuthRedirect>
-              <Owned />
+              <Portfolio />
             </AuthRedirect>
           </Route>
           <Route path="/stocks">

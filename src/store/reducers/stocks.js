@@ -10,8 +10,8 @@ const initialState = {
 const loadStocks = (state, action) => {
   const stocks = action.stocks;
   for (let stock of stocks) {
-    stock.buyQuantity = 0;
-    stock.sellQuantity = 0;
+    stock.buyQuantity = "";
+    stock.sellQuantity = "";
   }
   return {
     ...state,
@@ -37,8 +37,8 @@ const updateQuantity = (state, action) => {
     stocksCopy[index].sellQuantity = Number(action.value);
 
     // Do nothing if the value will become negative
-    if (stocksCopy[index].sellQuantity < 0) {
-      stocksCopy[index].sellQuantity = 0;
+    if (stocksCopy[index].sellQuantity <= 0) {
+      stocksCopy[index].sellQuantity = "";
     }
     // If value is greater than the max leave it
     if (stocksCopy[index].sellQuantity > action.max) {
@@ -48,8 +48,8 @@ const updateQuantity = (state, action) => {
     stocksCopy[index].buyQuantity = Number(action.value);
 
     // Do nothing if the value will become negative
-    if (stocksCopy[index].buyQuantity < 0) {
-      stocksCopy[index].buyQuantity = 0;
+    if (stocksCopy[index].buyQuantity <= 0) {
+      stocksCopy[index].buyQuantity = "";
     }
 
     // If value is greater than the max leave it

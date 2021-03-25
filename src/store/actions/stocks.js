@@ -25,9 +25,9 @@ export const fetchStocks = () => {
       })
       .catch((error) => {
         if (error.response) {
-          dispatch(actions.setErrorMessage(error.response.data.message))
+          dispatch(actions.setErrorMessage(error.response.data.message));
         } else {
-          dispatch(actions.setErrorMessage("Something went wrong"))
+          dispatch(actions.setErrorMessage("Something went wrong"));
         }
       });
   };
@@ -62,10 +62,20 @@ export const addNewId = (_id) => {
 export const buyStock = (stock, quantity, index) => {
   return (dispatch) => {
     const jwtToken = localStorage.getItem("jwtToken");
+    if (quantity === "") {
+      quantity = 0;
+    }
     axios
       .post(
         "http://localhost:3000/stocks/buy",
-        { stock, quantity },
+        {
+          stock: {
+            symbol: stock.symbol,
+            companyName: stock.companyName,
+            prices: stock.prices,
+          },
+          quantity,
+        },
         {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -85,9 +95,9 @@ export const buyStock = (stock, quantity, index) => {
       })
       .catch((error) => {
         if (error.response) {
-          dispatch(actions.setErrorMessage(error.response.data.message))
+          dispatch(actions.setErrorMessage(error.response.data.message));
         } else {
-          dispatch(actions.setErrorMessage("Something went wrong"))
+          dispatch(actions.setErrorMessage("Something went wrong"));
         }
       });
   };
@@ -115,9 +125,9 @@ export const fetchTransactions = () => {
       })
       .catch((error) => {
         if (error.response) {
-          dispatch(actions.setErrorMessage(error.response.data.message))
+          dispatch(actions.setErrorMessage(error.response.data.message));
         } else {
-          dispatch(actions.setErrorMessage("Something went wrong"))
+          dispatch(actions.setErrorMessage("Something went wrong"));
         }
       });
   };

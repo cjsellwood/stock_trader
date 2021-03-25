@@ -3,14 +3,15 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actions from "../store/actions/index";
 
-const Owned = (props) => {
+const Portfolio = (props) => {
   useEffect(() => {
     if (!props.stocks.length) {
       props.onFetchStocks();
     } else {
       // Reset buy quantity for all stocks
       for (let stock of props.stocks) {
-        props.onUpdateQuantity(stock.symbol, 0);
+        props.onUpdateQuantity(stock.symbol, "");
+        props.onUpdateQuantity(stock.symbol, "", "sell");
       }
     }
     if (!props.isTransactionsLoaded) {
@@ -31,12 +32,15 @@ const Owned = (props) => {
       props.stocks[index].prices[props.stocks[index].prices.length - 1];
     const quantity = props.stocks[index].buyQuantity;
     const totalPrice = price * quantity;
-    console.log(totalPrice);
-    if (quantity !== 0 && totalPrice < props.cash) {
+    if (quantity !== "" && totalPrice < props.cash) {
       props.onBuyStock(props.stocks[index], quantity, index);
       props.onUpdateQuantity(symbol, 0);
     } else {
-      console.log("Can't Afford or quantity 0");
+      if (totalPrice > props.cash) {
+        props.onSetErrorMessage("Cannot Afford");
+      } else if (quantity === "") {
+        props.onSetErrorMessage("Please Enter a Number");
+      }
     }
   };
 
@@ -50,9 +54,15 @@ const Owned = (props) => {
     // Check that the user has the stock quantity to sell
     const ownedQuantity = props.owned[symbol].quantity;
     const quantity = props.stocks[index].sellQuantity;
-    if (quantity !== 0 && quantity <= ownedQuantity) {
+    if (quantity !== "" && quantity <= ownedQuantity) {
       props.onBuyStock(props.stocks[index], -quantity, index);
       props.onUpdateQuantity(symbol, 0, "sell");
+    } else {
+      if (quantity === "") {
+        props.onSetErrorMessage("Please Enter a Number");
+      } else if (quantity > ownedQuantity) {
+        props.onSetErrorMessage("You Do Not Own That Many Shares");
+      }
     }
   };
 
@@ -97,82 +107,99 @@ const Owned = (props) => {
           ).toFixed(2)}
         </td>
         <td>
-          <form onSubmit={buyStock} data-symbol={stock.symbol}>
-            <button
-              type="button"
-              aria-label="subtract 1"
-              onClick={() =>
-                props.onUpdateQuantity(stock.symbol, stock.buyQuantity - 1)
-              }
-            >
-              -
-            </button>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              aria-label="quantity"
-              value={stock.buyQuantity}
-              min="0"
-              onChange={(e) =>
-                props.onUpdateQuantity(stock.symbol, e.target.value)
-              }
-            />
-            <button
-              type="button"
-              aria-label="add 1"
-              onClick={() =>
-                props.onUpdateQuantity(stock.symbol, stock.buyQuantity + 1)
-              }
-            >
-              +
-            </button>
-            {/* <span>{stock.prices[stock.prices.length - 1] * stock.buyQuantity}</span> */}
+          <form
+            className="transaction-form"
+            onSubmit={buyStock}
+            data-symbol={stock.symbol}
+          >
+            <div>
+              <button
+                type="button"
+                aria-label="subtract 1"
+                onClick={() => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(stock.symbol, stock.buyQuantity - 1);
+                }}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                aria-label="quantity"
+                value={stock.buyQuantity}
+                min="0"
+                onChange={(e) => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(stock.symbol, e.target.value);
+                }}
+              />
+              <button
+                type="button"
+                aria-label="add 1"
+                onClick={() => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(stock.symbol, stock.buyQuantity + 1);
+                }}
+              >
+                +
+              </button>
+            </div>
             <button type="submit">Buy</button>
           </form>
         </td>
         <td>
-          <form onSubmit={sellStock} data-symbol={stock.symbol}>
-            <button
-              type="button"
-              aria-label="subtract 1"
-              onClick={() =>
-                props.onUpdateQuantity(
-                  stock.symbol,
-                  stock.sellQuantity - 1,
-                  "sell",
-                  props.owned[key].quantity
-                )
-              }
-            >
-              -
-            </button>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              aria-label="quantity"
-              value={stock.sellQuantity}
-              min="0"
-              onChange={(e) =>
-                props.onUpdateQuantity(stock.symbol, e.target.value, "sell")
-              }
-              max={props.owned[key].quantity}
-            />
-            <button
-              type="button"
-              aria-label="add 1"
-              onClick={() =>
-                props.onUpdateQuantity(
-                  stock.symbol,
-                  stock.sellQuantity + 1,
-                  "sell",
-                  props.owned[key].quantity
-                )
-              }
-            >
-              +
-            </button>
+          <form
+            className="transaction-form"
+            onSubmit={sellStock}
+            data-symbol={stock.symbol}
+          >
+            <div>
+              <button
+                type="button"
+                aria-label="subtract 1"
+                onClick={() => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(
+                    stock.symbol,
+                    stock.sellQuantity - 1,
+                    "sell",
+                    props.owned[key].quantity
+                  );
+                }}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                aria-label="quantity"
+                value={stock.sellQuantity}
+                min="0"
+                onChange={(e) => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(stock.symbol, e.target.value, "sell");
+                }}
+                max={props.owned[key].quantity}
+              />
+              <button
+                type="button"
+                aria-label="add 1"
+                onClick={() => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(
+                    stock.symbol,
+                    stock.sellQuantity + 1,
+                    "sell",
+                    props.owned[key].quantity
+                  );
+                }}
+              >
+                +
+              </button>
+            </div>
             <button type="submit">Sell</button>
           </form>
         </td>
@@ -186,7 +213,7 @@ const Owned = (props) => {
 
   return (
     <div>
-      <h1 className="page-title">Owned</h1>
+      <h1 className="page-title">Portfolio</h1>
       <div>
         <table className="table">
           <thead>
@@ -255,6 +282,9 @@ const mapDispatchToProps = (dispatch) => {
     onBuyStock: (stock, quantity, index) => {
       dispatch(actions.buyStock(stock, quantity, index));
     },
+    onSetErrorMessage: (message) => {
+      dispatch(actions.setErrorMessage(message));
+    },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Owned);
+export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);

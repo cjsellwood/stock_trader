@@ -11,7 +11,7 @@ const Stocks = (props) => {
     } else {
       // Reset buy quantity for all stocks
       for (let stock of props.stocks) {
-        props.onUpdateQuantity(stock.symbol, 0);
+        props.onUpdateQuantity(stock.symbol, "");
       }
     }
 
@@ -36,7 +36,11 @@ const Stocks = (props) => {
       props.onBuyStock(props.stocks[index], quantity, index);
       props.onUpdateQuantity(symbol, 0);
     } else {
-      console.log("Can't Afford or quantity 0");
+      if (totalPrice > props.cash) {
+        props.onSetErrorMessage("Cannot Afford");
+      } else if (quantity === "") {
+        props.onSetErrorMessage("Please Enter a Number");
+      }
     }
   };
 
@@ -70,36 +74,45 @@ const Stocks = (props) => {
           {stock.prices[stock.prices.length - 1].toFixed(2)}
         </td>
         <td>
-          <form onSubmit={buyStock} data-symbol={stock.symbol}>
-            <button
-              type="button"
-              aria-label="subtract 1"
-              onClick={() =>
-                props.onUpdateQuantity(stock.symbol, stock.buyQuantity - 1)
-              }
-            >
-              -
-            </button>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              aria-label="quantity"
-              value={stock.buyQuantity}
-              min="0"
-              onChange={(e) =>
-                props.onUpdateQuantity(stock.symbol, e.target.value)
-              }
-            />
-            <button
-              type="button"
-              aria-label="add 1"
-              onClick={() =>
-                props.onUpdateQuantity(stock.symbol, stock.buyQuantity + 1)
-              }
-            >
-              +
-            </button>
+          <form
+            className="transaction-form"
+            onSubmit={buyStock}
+            data-symbol={stock.symbol}
+          >
+            <div>
+              <button
+                type="button"
+                aria-label="subtract 1"
+                onClick={() => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(stock.symbol, stock.buyQuantity - 1);
+                }}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                aria-label="quantity"
+                value={stock.buyQuantity}
+                min="0"
+                onChange={(e) => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(stock.symbol, e.target.value);
+                }}
+              />
+              <button
+                type="button"
+                aria-label="add 1"
+                onClick={() => {
+                  props.onSetErrorMessage("");
+                  props.onUpdateQuantity(stock.symbol, stock.buyQuantity + 1);
+                }}
+              >
+                +
+              </button>
+            </div>
             <button type="submit">Buy</button>
           </form>
         </td>
@@ -143,6 +156,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onBuyStock: (stock, quantity, index) => {
       dispatch(actions.buyStock(stock, quantity, index));
+    },
+    onSetErrorMessage: (message) => {
+      dispatch(actions.setErrorMessage(message));
     },
   };
 };
