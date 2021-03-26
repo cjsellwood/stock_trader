@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import * as actions from "../store/actions/index"
+import * as actions from "../store/actions/index";
 import { useHistory } from "react-router-dom";
 
 const Login = (props) => {
-
   useEffect(() => {
     // Reset error message on page load
     props.onSetErrorMessage("");
@@ -34,8 +33,7 @@ const Login = (props) => {
     e.preventDefault();
 
     // Submit to backend
-    props.onPostLogin(loginForm, history)
-    
+    props.onPostLogin(loginForm, history);
   };
 
   return (
@@ -79,9 +77,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.postLogin(loginForm, history));
     },
     onSetErrorMessage: (message) => {
-      dispatch(actions.setErrorMessage(message))
-    }
-  }
-}
+      dispatch(actions.setErrorMessage(message));
+    },
+  };
+};
 
 export default connect(null, mapDispatchToProps)(Login);

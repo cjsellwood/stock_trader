@@ -20,7 +20,8 @@
   align-items: center;
 }
 
-.top a, .top button {
+.top a,
+.top button {
   text-decoration: none;
   color: rgb(111, 158, 255);
   height: 100%;
@@ -36,7 +37,8 @@
   cursor: pointer;
 }
 
-.top a:hover, .top button:hover {
+.top a:hover,
+.top button:hover {
   color: white;
 }
 

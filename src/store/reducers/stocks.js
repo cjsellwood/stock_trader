@@ -4,6 +4,7 @@ const initialState = {
   stocks: [],
   transactions: [],
   isTransactionsLoaded: false,
+  isStocksLoaded: false,
   owned: {},
 };
 
@@ -16,6 +17,7 @@ const loadStocks = (state, action) => {
   return {
     ...state,
     stocks: stocks,
+    isStocksLoaded: true,
   };
 };
 

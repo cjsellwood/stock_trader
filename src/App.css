@@ -217,6 +217,11 @@ td.negative {
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
 }
+
+.transaction-form > button:hover {
+  background-color: rgb(110, 110, 255);
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;

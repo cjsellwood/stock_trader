@@ -15,7 +15,7 @@ export const fetchStocks = () => {
   return (dispatch) => {
     const jwtToken = localStorage.getItem("jwtToken");
     axios
-      .get("http://localhost:3000/stocks", {
+      .get("https://stocks-308723.ts.r.appspot.com/stocks", {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -68,7 +68,7 @@ export const buyStock = (stock, quantity, index) => {
     }
     axios
       .post(
-        "http://localhost:3000/stocks/buy",
+        "https://stocks-308723.ts.r.appspot.com/stocks/buy",
         {
           stock: {
             symbol: stock.symbol,
@@ -95,7 +95,6 @@ export const buyStock = (stock, quantity, index) => {
         dispatch(actions.newTransaction(response.data.transaction));
       })
       .catch((error) => {
-        console.dir(error);
         if (error.response) {
           dispatch(actions.setErrorMessage(error.response.data.message));
         } else {
@@ -117,7 +116,7 @@ export const fetchTransactions = () => {
   return (dispatch) => {
     const jwtToken = localStorage.getItem("jwtToken");
     axios
-      .get("http://localhost:3000/stocks/transactions", {
+      .get("https://stocks-308723.ts.r.appspot.com/stocks/transactions", {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },

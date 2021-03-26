@@ -47,7 +47,7 @@ const Search = (props) => {
       const jwtToken = localStorage.getItem("jwtToken");
       axios
         .post(
-          `http://localhost:3000/search`,
+          `https://stocks-308723.ts.r.appspot.com/search`,
           { symbol: search },
           {
             headers: {

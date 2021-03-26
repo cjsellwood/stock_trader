@@ -5,11 +5,9 @@ import * as actions from "../store/actions/index";
 
 const Transactions = (props) => {
   useEffect(() => {
-    if (!props.stocks.length) {
+    // Load stocks and transactions if not defined
+    if (!props.isStocksLoaded) {
       props.onFetchStocks();
-    }
-    if (!props.isTransactionsLoaded) {
-      props.onFetchTransactions();
     }
 
     // Reset error message on page load
@@ -17,6 +15,11 @@ const Transactions = (props) => {
 
     // eslint-disable-next-line
   }, []);
+
+  // Load transactions if stocks already defined
+  if (props.isStocksLoaded && !props.isTransactionsLoaded) {
+    props.onFetchTransactions();
+  }
 
   const displayTransactions = props.transactions.map((transaction) => {
     const stock = props.stocks.filter((el) => {
@@ -64,6 +67,7 @@ const mapStateToProps = (state) => {
     stocks: state.stocks.stocks,
     transactions: state.stocks.transactions,
     isTransactionsLoaded: state.stocks.isTransactionsLoaded,
+    isStocksLoaded: state.stocks.isStocksLoaded,
   };
 };
 

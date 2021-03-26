@@ -34,14 +34,14 @@ export const setErrorMessage = (message, success) => {
     type: actionTypes.SET_ERROR_MESSAGE,
     message,
     success,
-  }
-}
+  };
+};
 
 // Handle login submission to backend
 export const postLogin = (loginForm, history) => {
   return (dispatch) => {
     axios
-      .post("http://localhost:3000/login", {
+      .post("https://stocks-308723.ts.r.appspot.com/login", {
         ...loginForm,
       })
       .then((response) => {
@@ -60,13 +60,13 @@ export const postLogin = (loginForm, history) => {
         localStorage.setItem("cash", response.data.cash);
         dispatch(setCash(response.data.cash));
 
-        dispatch(setErrorMessage("Logged In", "success"))
+        dispatch(setErrorMessage("Logged In", "success"));
       })
       .catch((error) => {
         if (error.response) {
-          dispatch(setErrorMessage(error.response.data.message))
+          dispatch(setErrorMessage(error.response.data.message));
         } else {
-          dispatch(setErrorMessage("Something went wrong"))
+          dispatch(setErrorMessage("Something went wrong"));
         }
       });
   };
@@ -76,7 +76,7 @@ export const postLogin = (loginForm, history) => {
 export const postRegister = (registerForm, history) => {
   return (dispatch) => {
     axios
-      .post("http://localhost:3000/register", {
+      .post("https://stocks-308723.ts.r.appspot.com/register", {
         ...registerForm,
       })
       .then((response) => {
@@ -95,13 +95,13 @@ export const postRegister = (registerForm, history) => {
         localStorage.setItem("cash", response.data.cash);
         dispatch(setCash(response.data.cash));
 
-        dispatch(setErrorMessage("Registered", "success"))
+        dispatch(setErrorMessage("Registered", "success"));
       })
       .catch((error) => {
         if (error.response) {
-          dispatch(setErrorMessage(error.response.data.message))
+          dispatch(setErrorMessage(error.response.data.message));
         } else {
-          dispatch(setErrorMessage("Something went wrong"))
+          dispatch(setErrorMessage("Something went wrong"));
         }
       });
   };

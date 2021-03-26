@@ -1,7 +1,7 @@
 import classes from "./Home.module.css";
-import React, {useEffect} from "react";
-import {connect} from "react-redux"
-import * as actions from "../store/actions/index"
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import * as actions from "../store/actions/index";
 
 const Home = (props) => {
   useEffect(() => {
@@ -23,9 +23,9 @@ const Home = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSetErrorMessage: (message) => {
-      dispatch(actions.setErrorMessage(message))
-    }
-  }
-}
+      dispatch(actions.setErrorMessage(message));
+    },
+  };
+};
 
 export default connect(null, mapDispatchToProps)(Home);

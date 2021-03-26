@@ -18,7 +18,7 @@ const Portfolio = (props) => {
       props.onFetchTransactions();
     }
 
-    props.onSetErrorMessage("")
+    props.onSetErrorMessage("");
     // eslint-disable-next-line
   }, []);
 

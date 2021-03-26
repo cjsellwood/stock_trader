@@ -7,7 +7,7 @@ const AuthRedirect = (props) => {
   if (props.isAuth) {
     display = <React.Fragment>{props.children}</React.Fragment>;
   } else if (props.isLoading) {
-    display = <h1>Loading...</h1>
+    display = <h1>Loading...</h1>;
   } else {
     display = <Redirect to="/login" />;
   }

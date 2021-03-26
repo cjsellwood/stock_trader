@@ -1,22 +1,20 @@
-import React from 'react'
+import React from "react";
 import { connect } from "react-redux";
 
-const AuthHide = props => {
+const AuthHide = (props) => {
   let display;
   if (!props.isAuth) {
     display = <React.Fragment>{props.children}</React.Fragment>;
   } else {
     display = null;
   }
-  return (
-    display
-  )
-}
+  return display;
+};
 
 const mapStateToProps = (state) => {
   return {
     isAuth: state.auth.isAuth,
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(AuthHide)
+export default connect(mapStateToProps)(AuthHide);

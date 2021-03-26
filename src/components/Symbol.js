@@ -16,7 +16,7 @@ const Symbol = (props) => {
       }
     }
     // Reset error message on page load
-    props.onSetErrorMessage("")
+    props.onSetErrorMessage("");
 
     // eslint-disable-next-line
   }, []);
@@ -53,9 +53,6 @@ const Symbol = (props) => {
   const stock = props.stocks.filter((el) => {
     return el.symbol === symbol.toUpperCase();
   });
-
-  // console.log(stock)
-  console.log("symbol")
 
   let displayStock = [];
   if (stock.length) {
