@@ -5,7 +5,7 @@ import * as actions from "../store/actions/index";
 
 const Portfolio = (props) => {
   useEffect(() => {
-    if (!props.stocks.length) {
+    if (!props.isStocksLoaded) {
       props.onFetchStocks();
     } else {
       // Reset buy quantity for all stocks
@@ -14,13 +14,15 @@ const Portfolio = (props) => {
         props.onUpdateQuantity(stock.symbol, "", "sell");
       }
     }
-    if (!props.isTransactionsLoaded) {
-      props.onFetchTransactions();
-    }
 
     props.onSetErrorMessage("");
     // eslint-disable-next-line
   }, []);
+
+    // Load transactions if stocks already defined
+    if (props.isStocksLoaded && !props.isTransactionsLoaded) {
+      props.onFetchTransactions();
+    }
 
   const buyStock = (e) => {
     e.preventDefault();
@@ -268,6 +270,7 @@ const mapStateToProps = (state) => {
     stocks: state.stocks.stocks,
     owned: state.stocks.owned,
     isTransactionsLoaded: state.stocks.isTransactionsLoaded,
+    isStocksLoaded: state.stocks.isStocksLoaded,
     cash: state.auth.cash,
   };
 };
