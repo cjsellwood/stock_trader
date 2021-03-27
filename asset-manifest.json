@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/stock_trader/static/css/main.387351c6.chunk.css",
-    "main.js": "/stock_trader/static/js/main.95e00028.chunk.js",
-    "main.js.map": "/stock_trader/static/js/main.95e00028.chunk.js.map",
+    "main.js": "/stock_trader/static/js/main.f11f761b.chunk.js",
+    "main.js.map": "/stock_trader/static/js/main.f11f761b.chunk.js.map",
     "runtime-main.js": "/stock_trader/static/js/runtime-main.e6e763f8.js",
     "runtime-main.js.map": "/stock_trader/static/js/runtime-main.e6e763f8.js.map",
     "static/js/2.a0d811c6.chunk.js": "/stock_trader/static/js/2.a0d811c6.chunk.js",
@@ -16,6 +16,6 @@
     "static/js/runtime-main.e6e763f8.js",
     "static/js/2.a0d811c6.chunk.js",
     "static/css/main.387351c6.chunk.css",
-    "static/js/main.95e00028.chunk.js"
+    "static/js/main.f11f761b.chunk.js"
   ]
 }
